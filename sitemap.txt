@@ -1,12 +1,12 @@
 http://cloud-tour.github.io/2022/10/07/proteus8.9%E4%B8%8Ekeil4%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/
 http://cloud-tour.github.io/2022/10/07/imageTest/
 http://cloud-tour.github.io/2022/10/06/test/
-http://cloud-tour.github.io/tags/index.html
 http://cloud-tour.github.io/repository/index.html
+http://cloud-tour.github.io/tags/index.html
 http://cloud-tour.github.io/categories/index.html
 http://cloud-tour.github.io/links/index.html
-http://cloud-tour.github.io/about/index.html
 http://cloud-tour.github.io/books/index.html
+http://cloud-tour.github.io/about/index.html
 http://cloud-tour.github.io/404.html
 http://cloud-tour.github.io/2022/10/05/hello-world/
 http://cloud-tour.github.io/
