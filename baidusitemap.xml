@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://example.com/2022/10/07/proteus8.9%E4%B8%8Ekeil4%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
+    <loc>http://Cloud-Tour.github.io/2022/10/07/proteus8.9%E4%B8%8Ekeil4%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2022-10-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2022/10/06/test/</loc>
+    <loc>http://Cloud-Tour.github.io/2022/10/07/imageTest/</loc>
+    <lastmod>2022-10-07</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2022/10/06/test/</loc>
     <lastmod>2022-10-06</lastmod>
   </url>
   <url>
-    <loc>http://example.com/2022/10/05/hello-world/</loc>
+    <loc>http://Cloud-Tour.github.io/2022/10/05/hello-world/</loc>
     <lastmod>2022-10-05</lastmod>
   </url>
 </urlset> 
