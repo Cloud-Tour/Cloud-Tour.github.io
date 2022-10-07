@@ -2,8 +2,8 @@ http://example.com/2022/10/07/proteus8.9%E4%B8%8Ekeil4%E7%9A%84%E7%AE%80%E5%8D%9
 http://example.com/2022/10/06/test/
 http://example.com/repository/index.html
 http://example.com/tags/index.html
-http://example.com/categories/index.html
 http://example.com/links/index.html
+http://example.com/categories/index.html
 http://example.com/about/index.html
 http://example.com/books/index.html
 http://example.com/404.html
