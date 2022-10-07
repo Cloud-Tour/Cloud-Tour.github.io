@@ -1,3 +1,4 @@
+http://example.com/2022/10/07/proteus8.9%E4%B8%8Ekeil4%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/
 http://example.com/2022/10/06/test/
 http://example.com/repository/index.html
 http://example.com/tags/index.html
@@ -8,5 +9,8 @@ http://example.com/books/index.html
 http://example.com/404.html
 http://example.com/2022/10/05/hello-world/
 http://example.com/
+http://example.com/tags/proteus/
+http://example.com/tags/keil/
 http://example.com/tags/test/
+http://example.com/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/
 http://example.com/categories/%E6%B5%8B%E8%AF%95/
