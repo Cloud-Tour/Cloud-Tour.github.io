@@ -6,7 +6,7 @@
   <link href="http://cloud-tour.github.io/atom.xml" rel="self"/>
   
   <link href="http://cloud-tour.github.io/"/>
-  <updated>2022-10-07T14:21:45.126Z</updated>
+  <updated>2022-10-08T04:29:18.082Z</updated>
   <id>http://cloud-tour.github.io/</id>
   
   <author>
@@ -17,27 +17,59 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>图片测试</title>
-    <link href="http://cloud-tour.github.io/2022/10/07/imageTest/"/>
-    <id>http://cloud-tour.github.io/2022/10/07/imageTest/</id>
-    <published>2022-10-07T14:16:37.714Z</published>
-    <updated>2022-10-07T14:21:45.126Z</updated>
+    <title>debian系统下安装nginx</title>
+    <link href="http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/"/>
+    <id>http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/</id>
+    <published>2022-10-08T04:14:18.807Z</published>
+    <updated>2022-10-08T04:29:18.082Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="测试图片"><a class="markdownIt-Anchor" href="#测试图片"></a> 测试图片</h1><p><img src="/2022/10/07/imageTest/image-20221007221844584.png" alt="image-20221007221844584"></p>]]></content>
+    <content type="html"><![CDATA[<p>​博主在工作学习时，经常性使用到nginx，但是某些时候有一些指令总是忘记，去网上收缩有甚是繁琐，因此用本篇博客记录安装的指令，与最后各种文件存放的位置</p><h1 id="debian下安装nginx"><a class="markdownIt-Anchor" href="#debian下安装nginx"></a> debian下安装nginx</h1><ul><li>在安装nginx之前，需要先安装一些插件，使得后面nginx能够正常运行</li><li>gcc</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y build-essential</span><br></pre></td></tr></table></figure><ul><li>正则库</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y libpcre3 libpcre3-dev</span><br></pre></td></tr></table></figure><ul><li>zlib库</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y zlib1g-dev</span><br></pre></td></tr></table></figure><ul><li>OpenSSL库</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y openssl libssl-dev</span><br></pre></td></tr></table></figure><ul><li>下载nginx源码</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 下载源码</span><br><span class="line"></span><br><span class="line">wget http://nginx.org/download/nginx-1.20.2.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压源码</span><br><span class="line"></span><br><span class="line">tar -xf nginx-1.20.2.tar.gz</span><br><span class="line"></span><br><span class="line"># 进入源代码内</span><br><span class="line"></span><br><span class="line">cd nginx-1.20.2</span><br></pre></td></tr></table></figure><ul><li>配置</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/nginx \</span><br><span class="line">--user=www \</span><br><span class="line">--group=www \</span><br><span class="line">--sbin-path=/usr/local/nginx/sbin/nginx \</span><br><span class="line">--conf-path=/usr/local/nginx/nginx.conf \</span><br><span class="line">--error-log-path=/var/log/nginx/error.log \</span><br><span class="line">--http-log-path=/var/log/nginx/access.log \</span><br><span class="line">--pid-path=/var/run/nginx.pid \</span><br><span class="line">--lock-path=/var/run/nginx.lock \</span><br><span class="line">--http-client-body-temp-path=/var/cache/nginx/client_temp \</span><br><span class="line">--http-proxy-temp-path=/var/cache/nginx/proxy_temp \</span><br><span class="line">--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \</span><br><span class="line">--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \</span><br><span class="line">--http-scgi-temp-path=/var/cache/nginx/scgi_temp \</span><br><span class="line">--with-file-aio \</span><br><span class="line">--with-threads \</span><br><span class="line">--with-http_addition_module \</span><br><span class="line">--with-http_auth_request_module \</span><br><span class="line">--with-http_dav_module \</span><br><span class="line">--with-http_flv_module \</span><br><span class="line">--with-http_gunzip_module \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--with-http_mp4_module \</span><br><span class="line">--with-http_random_index_module \</span><br><span class="line">--with-http_realip_module \</span><br><span class="line">--with-http_secure_link_module \</span><br><span class="line">--with-http_slice_module \</span><br><span class="line">--with-http_ssl_module \</span><br><span class="line">--with-http_stub_status_module \</span><br><span class="line">--with-http_sub_module \</span><br><span class="line">--with-http_v2_module \</span><br><span class="line">--with-mail \</span><br><span class="line">--with-mail_ssl_module \</span><br><span class="line">--with-stream \</span><br><span class="line">--with-stream_realip_module \</span><br><span class="line">--with-stream_ssl_module \</span><br><span class="line">--with-stream_ssl_preread_module</span><br></pre></td></tr></table></figure><p>其中：</p><ul><li><p><code>--prefix</code>：Nginx主要安装路径，后续Nginx子目录依照这个变量展开</p></li><li><p><code>--user</code>：设置Nginx进程启动时，所属的用户</p></li><li><p><code>--group</code>：设置Nginx进程启动时，所属的用户组</p></li><li><p>编译</p></li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure><ul><li>安装</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure><ul><li>创建<code>systemctl</code>守护，管理Nginx：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/usr/local/nginx/sbin/nginx</span><br><span class="line">ExecReload=/usr/local/nginx/sbin/nginx -s reload</span><br><span class="line">ExecStop=/usr/local/nginx/sbin/nginx -s quit</span><br><span class="line">PrivateTmp=true   </span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure><ul><li>启动各服务</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">-------------------</span><br><span class="line">systemctl start nginx</span><br><span class="line">-------------------</span><br><span class="line">#观察nginx启动状态</span><br><span class="line">systemctl status nginx.service</span><br><span class="line">-------------------</span><br><span class="line">#查看80线程状态</span><br><span class="line">lsof -i:80</span><br></pre></td></tr></table></figure><h1 id="nginx命令"><a class="markdownIt-Anchor" href="#nginx命令"></a> nginx命令</h1><p>如果你是按我的方法编译，那么，需要注意。</p><ul><li><code>/usr/local/nginx</code>：为Nginx编译安装的地址。</li><li><code>/usr/local/nginx/conf/nginx.conf</code>：Nginx默认配置文件。</li></ul><p>同时，我们使用<code>systemctl</code>对Nginx进行管理：</p><ul><li><code>systemctl start nginx</code>：启动Nginx服务。</li><li><code>systemctl reload nginx</code>：Nginx配置重载。</li><li><code>systemctl stop nginx</code>：停止Nginx服务。</li></ul><hr><p>本片文章参考<a href="https://www.php.cn/nginx/488924.html">https://www.php.cn/nginx/488924.html</a></p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;测试图片&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#测试图片&quot;&gt;&lt;/a&gt; 测试图片&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;/2022/10/07/imageTest/image-20221007221844584.png&quot; alt=&quot;</summary>
+    <summary type="html">&lt;p&gt;​	博主在工作学习时，经常性使用到nginx，但是某些时候有一些指令总是忘记，去网上收缩有甚是繁琐，因此用本篇博客记录安装的指令，与最后各种文件存放的位置&lt;/p&gt;
+&lt;h1 id=&quot;debian下安装nginx&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; hr</summary>
       
     
     
     
-    <category term="测试" scheme="http://cloud-tour.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
+    <category term="linux" scheme="http://cloud-tour.github.io/categories/linux/"/>
     
     
-    <category term="test" scheme="http://cloud-tour.github.io/tags/test/"/>
+    <category term="debian" scheme="http://cloud-tour.github.io/tags/debian/"/>
+    
+    <category term="nginx" scheme="http://cloud-tour.github.io/tags/nginx/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>debian系统配置java11环境</title>
+    <link href="http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEjava11%E7%8E%AF%E5%A2%83/"/>
+    <id>http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEjava11%E7%8E%AF%E5%A2%83/</id>
+    <published>2022-10-08T03:31:36.963Z</published>
+    <updated>2022-10-08T03:47:19.584Z</updated>
+    
+    <content type="html"><![CDATA[<p>​博主最近在工作中使用到debian系统，在初始系统中要进行一些配置，使后续的程序能正常运行，因此用该篇文章记录一些配置的步骤。</p><ul><li>博主用的debian系统为11.2版本</li></ul><h1 id="下载jdk11"><a class="markdownIt-Anchor" href="#下载jdk11"></a> 下载jdk11</h1><ul><li>分别输入下列两条指令</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt search openjdk</span><br><span class="line">------------------------------</span><br><span class="line">sudo apt install default-jdk</span><br></pre></td></tr></table></figure><ul><li>输入查看java版本</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -version</span><br></pre></td></tr></table></figure><ul><li>出现下列信息即为安装成功</li></ul><img src="/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEjava11%E7%8E%AF%E5%A2%83/image-20221008114032830.png" alt="image-20221008114032830" style="zoom:67%;"><h1 id="其他操作"><a class="markdownIt-Anchor" href="#其他操作"></a> 其他操作</h1><p>​其实在上述操作后应该就可以正常运行java程序了，但是为了以防万一，再贴出其他操作</p><h2 id="debian的系统环境变量"><a class="markdownIt-Anchor" href="#debian的系统环境变量"></a> debian的系统环境变量</h2><ul><li>debian系统的环境变量位置位于/etc/profile</li><li>入若需要进行配置环境变量，直接vim即可</li></ul><p>配置方式：</p><img src="/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEjava11%E7%8E%AF%E5%A2%83/image-20221008114456095.png" alt="image-20221008114456095"><p>​配置环境变量时，需要先在windows中下载jdk11的安装包，然后传到debian的/etc/java中，再解压。具体信息步骤博主就不在这贴出了。自行百度，很简单的。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;​		博主最近在工作中使用到debian系统，在初始系统中要进行一些配置，使后续的程序能正常运行，因此用该篇文章记录一些配置的步骤。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;博主用的debian系统为11.2版本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;下载jdk11&quot;&gt;&lt;a class=</summary>
+      
+    
+    
+    
+    <category term="linux" scheme="http://cloud-tour.github.io/categories/linux/"/>
+    
+    
+    <category term="debian" scheme="http://cloud-tour.github.io/tags/debian/"/>
+    
+    <category term="java11" scheme="http://cloud-tour.github.io/tags/java11/"/>
     
   </entry>
   
@@ -66,51 +98,6 @@
     <category term="proteus" scheme="http://cloud-tour.github.io/tags/proteus/"/>
     
     <category term="keil" scheme="http://cloud-tour.github.io/tags/keil/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>测试</title>
-    <link href="http://cloud-tour.github.io/2022/10/06/test/"/>
-    <id>http://cloud-tour.github.io/2022/10/06/test/</id>
-    <published>2022-10-06T03:41:25.054Z</published>
-    <updated>2022-10-06T04:06:06.936Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="测试文档"><a class="markdownIt-Anchor" href="#测试文档"></a> 测试文档</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pubilc <span class="keyword">void</span> <span class="title function_">Test</span><span class="params">()</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="2222"><a class="markdownIt-Anchor" href="#2222"></a> 2222</h2>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;测试文档&quot;&gt;&lt;a class=&quot;markdownIt-Anchor&quot; href=&quot;#测试文档&quot;&gt;&lt;/a&gt; 测试文档&lt;/h1&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;sp</summary>
-      
-    
-    
-    
-    <category term="测试" scheme="http://cloud-tour.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
-    
-    
-    <category term="test" scheme="http://cloud-tour.github.io/tags/test/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://cloud-tour.github.io/2022/10/05/hello-world/"/>
-    <id>http://cloud-tour.github.io/2022/10/05/hello-world/</id>
-    <published>2022-10-05T08:06:25.553Z</published>
-    <updated>2022-10-05T08:06:25.553Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="quick-start"><a class="markdownIt-Anchor" href="#quick-start"></a> Quick Start</h2><h3 id="create-a-new-post"><a class="markdownIt-Anchor" href="#create-a-new-post"></a> Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server"><a class="markdownIt-Anchor" href="#run-server"></a> Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files"><a class="markdownIt-Anchor" href="#generate-static-files"></a> Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites"><a class="markdownIt-Anchor" href="#deploy-to-remote-sites"></a> Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
-      
-    
-    
-    
     
   </entry>
   

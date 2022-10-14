@@ -17,18 +17,22 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>404 Not Found：该页无法显示 | Hexo</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="404 Not Found：该页无法显示">
-<meta property="og:url" content="http://cloud-tour.github.io/404.html">
+  <title>debian系统下安装nginx | Hexo</title>
+  <meta name="description" content="​	博主在工作学习时，经常性使用到nginx，但是某些时候有一些指令总是忘记，去网上收缩有甚是繁琐，因此用本篇博客记录安装的指令，与最后各种文件存放的位置  debian下安装nginx  在安装nginx之前，需要先安装一些插件，使得后面nginx能够正常运行 gcc  1apt install -y build-essential  正则库  1apt install -y libpcre3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="debian系统下安装nginx">
+<meta property="og:url" content="http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="​	博主在工作学习时，经常性使用到nginx，但是某些时候有一些指令总是忘记，去网上收缩有甚是繁琐，因此用本篇博客记录安装的指令，与最后各种文件存放的位置  debian下安装nginx  在安装nginx之前，需要先安装一些插件，使得后面nginx能够正常运行 gcc  1apt install -y build-essential  正则库  1apt install -y libpcre3">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-10-06T02:48:58.718Z">
-<meta property="article:modified_time" content="2022-10-06T02:48:58.718Z">
+<meta property="article:published_time" content="2022-10-08T04:14:18.807Z">
+<meta property="article:modified_time" content="2022-10-08T04:29:18.082Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="debian">
+<meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://cloud-tour.github.io/404.html">
+  <link rel="canonical" href="http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/index.html">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -305,16 +309,25 @@
 
   
   
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#debian%E4%B8%8B%E5%AE%89%E8%A3%85nginx"><span class="toc-number">1.</span> <span class="toc-text"> debian下安装nginx</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text"> nginx命令</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
-  <article id="page-" class="article article-type-page" itemscope itemtype="http://schema.org/BlogPosting">
+  <article id="post-debian系统下安装nginx" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
     <div class="article-header">
       
         
   
     <h1 class="article-title" itemprop="name">
-      404 Not Found：该页无法显示
+      debian系统下安装nginx
     </h1>
   
 
@@ -322,22 +335,101 @@
       <div class="article-meta">
         <span class="article-date">
     <i class="icon icon-calendar-check"></i>
-	<a href="/404.html" class="article-date">
-	  <time datetime="2022-10-06T02:48:58.718Z" itemprop="datePublished">2022-10-06</time>
+	<a href="/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/" class="article-date">
+	  <time datetime="2022-10-08T04:14:18.807Z" itemprop="datePublished">2022-10-08</time>
 	</a>
 </span>
         
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+  </span>
+
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/debian/" rel="tag">debian</a>, <a class="article-tag-link-link" href="/tags/nginx/" rel="tag">nginx</a>
+  </span>
+
 
         
 
-        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/404.html#comments" class="article-comment-link">Comments</a></span>
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/#comments" class="article-comment-link">Comments</a></span>
         
       </div>
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <script type="text/javascript" src="//www.qq.com/404/search_children.js" charset="utf-8" homepageurl="<%- config.url %>" homepagename="回到我的主页"></script>
+        <p>​	博主在工作学习时，经常性使用到nginx，但是某些时候有一些指令总是忘记，去网上收缩有甚是繁琐，因此用本篇博客记录安装的指令，与最后各种文件存放的位置</p>
+<h1 id="debian下安装nginx"><a class="markdownIt-Anchor" href="#debian下安装nginx"></a> debian下安装nginx</h1>
+<ul>
+<li>在安装nginx之前，需要先安装一些插件，使得后面nginx能够正常运行</li>
+<li>gcc</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y build-essential</span><br></pre></td></tr></table></figure>
+<ul>
+<li>正则库</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y libpcre3 libpcre3-dev</span><br></pre></td></tr></table></figure>
+<ul>
+<li>zlib库</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y zlib1g-dev</span><br></pre></td></tr></table></figure>
+<ul>
+<li>OpenSSL库</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install -y openssl libssl-dev</span><br></pre></td></tr></table></figure>
+<ul>
+<li>下载nginx源码</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 下载源码</span><br><span class="line"></span><br><span class="line">wget http://nginx.org/download/nginx-1.20.2.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压源码</span><br><span class="line"></span><br><span class="line">tar -xf nginx-1.20.2.tar.gz</span><br><span class="line"></span><br><span class="line"># 进入源代码内</span><br><span class="line"></span><br><span class="line">cd nginx-1.20.2</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/nginx \</span><br><span class="line">--user=www \</span><br><span class="line">--group=www \</span><br><span class="line">--sbin-path=/usr/local/nginx/sbin/nginx \</span><br><span class="line">--conf-path=/usr/local/nginx/nginx.conf \</span><br><span class="line">--error-log-path=/var/log/nginx/error.log \</span><br><span class="line">--http-log-path=/var/log/nginx/access.log \</span><br><span class="line">--pid-path=/var/run/nginx.pid \</span><br><span class="line">--lock-path=/var/run/nginx.lock \</span><br><span class="line">--http-client-body-temp-path=/var/cache/nginx/client_temp \</span><br><span class="line">--http-proxy-temp-path=/var/cache/nginx/proxy_temp \</span><br><span class="line">--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \</span><br><span class="line">--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \</span><br><span class="line">--http-scgi-temp-path=/var/cache/nginx/scgi_temp \</span><br><span class="line">--with-file-aio \</span><br><span class="line">--with-threads \</span><br><span class="line">--with-http_addition_module \</span><br><span class="line">--with-http_auth_request_module \</span><br><span class="line">--with-http_dav_module \</span><br><span class="line">--with-http_flv_module \</span><br><span class="line">--with-http_gunzip_module \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--with-http_mp4_module \</span><br><span class="line">--with-http_random_index_module \</span><br><span class="line">--with-http_realip_module \</span><br><span class="line">--with-http_secure_link_module \</span><br><span class="line">--with-http_slice_module \</span><br><span class="line">--with-http_ssl_module \</span><br><span class="line">--with-http_stub_status_module \</span><br><span class="line">--with-http_sub_module \</span><br><span class="line">--with-http_v2_module \</span><br><span class="line">--with-mail \</span><br><span class="line">--with-mail_ssl_module \</span><br><span class="line">--with-stream \</span><br><span class="line">--with-stream_realip_module \</span><br><span class="line">--with-stream_ssl_module \</span><br><span class="line">--with-stream_ssl_preread_module</span><br></pre></td></tr></table></figure>
+<p>其中：</p>
+<ul>
+<li>
+<p><code>--prefix</code>：Nginx主要安装路径，后续Nginx子目录依照这个变量展开</p>
+</li>
+<li>
+<p><code>--user</code>：设置Nginx进程启动时，所属的用户</p>
+</li>
+<li>
+<p><code>--group</code>：设置Nginx进程启动时，所属的用户组</p>
+</li>
+<li>
+<p>编译</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建<code>systemctl</code>守护，管理Nginx：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /usr/lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=/usr/local/nginx/sbin/nginx</span><br><span class="line">ExecReload=/usr/local/nginx/sbin/nginx -s reload</span><br><span class="line">ExecStop=/usr/local/nginx/sbin/nginx -s quit</span><br><span class="line">PrivateTmp=true   </span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+<ul>
+<li>启动各服务</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">-------------------</span><br><span class="line">systemctl start nginx</span><br><span class="line">-------------------</span><br><span class="line">#观察nginx启动状态</span><br><span class="line">systemctl status nginx.service</span><br><span class="line">-------------------</span><br><span class="line">#查看80线程状态</span><br><span class="line">lsof -i:80</span><br></pre></td></tr></table></figure>
+<h1 id="nginx命令"><a class="markdownIt-Anchor" href="#nginx命令"></a> nginx命令</h1>
+<p>如果你是按我的方法编译，那么，需要注意。</p>
+<ul>
+<li><code>/usr/local/nginx</code>：为Nginx编译安装的地址。</li>
+<li><code>/usr/local/nginx/conf/nginx.conf</code>：Nginx默认配置文件。</li>
+</ul>
+<p>同时，我们使用<code>systemctl</code>对Nginx进行管理：</p>
+<ul>
+<li><code>systemctl start nginx</code>：启动Nginx服务。</li>
+<li><code>systemctl reload nginx</code>：Nginx配置重载。</li>
+<li><code>systemctl stop nginx</code>：停止Nginx服务。</li>
+</ul>
+<hr>
+<p>本片文章参考<a target="_blank" rel="noopener" href="https://www.php.cn/nginx/488924.html">https://www.php.cn/nginx/488924.html</a></p>
 
       
     </div>
@@ -347,7 +439,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://cloud-tour.github.io/404.html" title="404 Not Found：该页无法显示" target="_blank" rel="external">http://cloud-tour.github.io/404.html</a>
+      <a href="http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/" title="debian系统下安装nginx" target="_blank" rel="external">http://cloud-tour.github.io/2022/10/08/debian系统下安装nginx/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -378,12 +470,36 @@
   </article>
   
     
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
 
   
 </div>
 
   <nav class="bar bar-footer clearfix" data-stick-bottom>
   <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEjava11%E7%8E%AF%E5%A2%83/" title="debian系统配置java11环境"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">    <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
   
   
   <!-- Button trigger modal -->
@@ -497,6 +613,37 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 
 
 
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
 
 
 

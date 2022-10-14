@@ -2,27 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E4%B8%8B%E5%AE%89%E8%A3%85nginx/</loc>
+    
+    <lastmod>2022-10-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/2022/10/08/debian%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AEjava11%E7%8E%AF%E5%A2%83/</loc>
+    
+    <lastmod>2022-10-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/2022/10/07/proteus8.9%E4%B8%8Ekeil4%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2022-10-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/2022/10/07/imageTest/</loc>
-    
-    <lastmod>2022-10-07</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/2022/10/06/test/</loc>
-    
-    <lastmod>2022-10-06</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -91,41 +91,46 @@
     <priority>0.6</priority>
   </url>
   
-  <url>
-    <loc>http://cloud-tour.github.io/2022/10/05/hello-world/</loc>
-    
-    <lastmod>2022-10-05</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
 
   <url>
     <loc>http://cloud-tour.github.io/</loc>
-    <lastmod>2022-10-07</lastmod>
+    <lastmod>2022-10-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/test/</loc>
-    <lastmod>2022-10-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>http://cloud-tour.github.io/tags/proteus/</loc>
-    <lastmod>2022-10-07</lastmod>
+    <lastmod>2022-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/keil/</loc>
-    <lastmod>2022-10-07</lastmod>
+    <lastmod>2022-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/debian/</loc>
+    <lastmod>2022-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/nginx/</loc>
+    <lastmod>2022-10-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/java11/</loc>
+    <lastmod>2022-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -133,15 +138,15 @@
 
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/%E6%B5%8B%E8%AF%95/</loc>
-    <lastmod>2022-10-07</lastmod>
+    <loc>http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/</loc>
+    <lastmod>2022-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/</loc>
-    <lastmod>2022-10-07</lastmod>
+    <loc>http://cloud-tour.github.io/categories/linux/</loc>
+    <lastmod>2022-10-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
