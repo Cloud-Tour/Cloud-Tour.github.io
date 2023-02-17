@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://Cloud-Tour.github.io/2023/02/17/redis/</loc>
+    <lastmod>2023-02-17</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2023/02/17/mysql/</loc>
+    <lastmod>2023-02-17</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2023/02/17/ssb/</loc>
+    <lastmod>2023-02-17</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2023/02/17/jvm/</loc>
+    <lastmod>2023-02-17</lastmod>
+  </url>
+  <url>
     <loc>http://Cloud-Tour.github.io/2023/02/17/juc/</loc>
     <lastmod>2023-02-17</lastmod>
   </url>

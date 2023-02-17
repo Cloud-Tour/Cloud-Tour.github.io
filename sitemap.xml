@@ -2,6 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://cloud-tour.github.io/2023/02/17/redis/</loc>
+    
+    <lastmod>2023-02-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/2023/02/17/mysql/</loc>
+    
+    <lastmod>2023-02-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/2023/02/17/ssb/</loc>
+    
+    <lastmod>2023-02-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/2023/02/17/jvm/</loc>
+    
+    <lastmod>2023-02-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/2023/02/17/juc/</loc>
     
     <lastmod>2023-02-17</lastmod>
@@ -47,7 +83,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/repository/index.html</loc>
+    <loc>http://cloud-tour.github.io/tags/index.html</loc>
     
     <lastmod>2022-10-06</lastmod>
     
@@ -56,7 +92,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/index.html</loc>
+    <loc>http://cloud-tour.github.io/repository/index.html</loc>
     
     <lastmod>2022-10-06</lastmod>
     
@@ -83,7 +119,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/books/index.html</loc>
+    <loc>http://cloud-tour.github.io/about/index.html</loc>
     
     <lastmod>2022-10-06</lastmod>
     
@@ -92,7 +128,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/about/index.html</loc>
+    <loc>http://cloud-tour.github.io/books/index.html</loc>
     
     <lastmod>2022-10-06</lastmod>
     
@@ -154,6 +190,13 @@
   </url>
   
   <url>
+    <loc>http://cloud-tour.github.io/tags/mysql/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/tags/java/</loc>
     <lastmod>2023-02-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -161,7 +204,28 @@
   </url>
   
   <url>
+    <loc>http://cloud-tour.github.io/tags/redis/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/ssb/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/tags/juc/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/jvm/</loc>
     <lastmod>2023-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -184,6 +248,13 @@
   </url>
   
   <url>
+    <loc>http://cloud-tour.github.io/categories/mysql/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/categories/javase/</loc>
     <lastmod>2023-02-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -191,7 +262,28 @@
   </url>
   
   <url>
+    <loc>http://cloud-tour.github.io/categories/redis/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/categories/java/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/categories/juc/</loc>
+    <lastmod>2023-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/categories/jvm/</loc>
     <lastmod>2023-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
