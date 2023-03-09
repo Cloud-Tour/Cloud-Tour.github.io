@@ -13,8 +13,8 @@ http://cloud-tour.github.io/repository/index.html
 http://cloud-tour.github.io/tags/index.html
 http://cloud-tour.github.io/categories/index.html
 http://cloud-tour.github.io/links/index.html
-http://cloud-tour.github.io/books/index.html
 http://cloud-tour.github.io/about/index.html
+http://cloud-tour.github.io/books/index.html
 http://cloud-tour.github.io/404.html
 http://cloud-tour.github.io/
 http://cloud-tour.github.io/tags/debian/
@@ -25,8 +25,8 @@ http://cloud-tour.github.io/tags/keil/
 http://cloud-tour.github.io/tags/kafka/
 http://cloud-tour.github.io/tags/mysql/
 http://cloud-tour.github.io/tags/java/
-http://cloud-tour.github.io/tags/ssb/
 http://cloud-tour.github.io/tags/redis/
+http://cloud-tour.github.io/tags/ssb/
 http://cloud-tour.github.io/tags/juc/
 http://cloud-tour.github.io/tags/jvm/
 http://cloud-tour.github.io/tags/ssm/
@@ -35,7 +35,7 @@ http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/
 http://cloud-tour.github.io/categories/kafka/
 http://cloud-tour.github.io/categories/mysql/
 http://cloud-tour.github.io/categories/javase/
-http://cloud-tour.github.io/categories/java/
 http://cloud-tour.github.io/categories/redis/
+http://cloud-tour.github.io/categories/java/
 http://cloud-tour.github.io/categories/juc/
 http://cloud-tour.github.io/categories/jvm/

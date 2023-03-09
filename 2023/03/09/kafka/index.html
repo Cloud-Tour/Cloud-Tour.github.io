@@ -25,38 +25,36 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Kafka Kafka是最初由Linkedin公司开发，是一个分布式、分区的、多副本的、多订阅者，基于zookeeper协调的分布式日志系统（也可以当做MQ系统），常见可以用于web&#x2F;nginx日志、访问日志，消息服务等等，Linkedin于2010年贡献给了Apache基金会并成为顶级开源项目。主要应用场景是：日志收集系统和消息系统。Kafka主要设计目标如下：  以时间复杂度为O(1)的方式">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9E%B6%E6%9E%84.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-topic.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-partition.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-partition.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-offset.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-producer.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-consume.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/consumer_group%E7%A4%BA%E4%BE%8B.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/consumer_group%E7%A4%BA%E4%BE%8B2.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/message%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-zookeeper.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E7%82%B9%E5%AF%B9%E7%82%B9%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86-ISR-1.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86-ISR-2.png">
-<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAAAAACIM/FCAAACh0lEQVR4Ae3ch5W0OgyG4dt/mQJ2xgQPzJoM1m3AbALrxzrf28FzsoP0HykJEEAAAUQTBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEkKK0789+GK/I2ezfQB522PnS1qc8pGgXvr4tE4aY0XOUWlGImThWgyCk6DleixzE7qwBkg/MGiDPlVVAyp1VQGrPKiACDhFI6VkF5LmzCki+sg7IwDoglnVAil0IMkeG9CyUiwsxLFUVFzJJOQaKCjFCDN9RXMjIX7W6ztZXZDKKCyn8sWJvH+nca7WHDN9lROlAliPH9iRKCPI4cswFJQWxB46toLQgQ9jhn5QYZA9DOkoMUoQde5YapAxDWkoNYsOQR3KQd9CxUnIQF4S49CB9ENKlBxmDEKsFUgMCCCCAAHIrSF61f6153Ajy8nyiPr8L5MXnmm4CyT2fzN4DUvHZ+ntA2tOQBRBAAAEEEEAAAQQQ7ZBaC6TwSiDUaYHQ2yuB0MN+ft+43whyrs4rgVCjBUKTFshLC6TUAjGA3AxSaYFYLZBOC2RUAsk8h5qTg9QcbEoOsoQhQ2qQhsO5xCD5dgB5JQaZ+KBKGtKecvR81Ic0ZDjByKdDx0rSEDZ/djQbH+bkIdvfJFm98BfV8hD2zprfVdlu9PxVeyYAkciREohRAplJCaRSAplJCcQogTjSAdlyHRBvSAekJR0QRzogA+mADJkOiCPSAPEtqYBshlRAXC43hxix2QiOuEZkVERykGyNo9idIZKE0HO7XrG6OiMShlDWjstVzdPgXtUH9v0CEidAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQP4HgjZxTpdEii0AAAAASUVORK5CYII=">
-<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAAAAACIM/FCAAACh0lEQVR4Ae3ch5W0OgyG4dt/mQJ2xgQPzJoM1m3AbALrxzrf28FzsoP0HykJEEAAAUQTBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEkKK0789+GK/I2ezfQB522PnS1qc8pGgXvr4tE4aY0XOUWlGImThWgyCk6DleixzE7qwBkg/MGiDPlVVAyp1VQGrPKiACDhFI6VkF5LmzCki+sg7IwDoglnVAil0IMkeG9CyUiwsxLFUVFzJJOQaKCjFCDN9RXMjIX7W6ztZXZDKKCyn8sWJvH+nca7WHDN9lROlAliPH9iRKCPI4cswFJQWxB46toLQgQ9jhn5QYZA9DOkoMUoQde5YapAxDWkoNYsOQR3KQd9CxUnIQF4S49CB9ENKlBxmDEKsFUgMCCCCAAHIrSF61f6153Ajy8nyiPr8L5MXnmm4CyT2fzN4DUvHZ+ntA2tOQBRBAAAEEEEAAAQQQ7ZBaC6TwSiDUaYHQ2yuB0MN+ft+43whyrs4rgVCjBUKTFshLC6TUAjGA3AxSaYFYLZBOC2RUAsk8h5qTg9QcbEoOsoQhQ2qQhsO5xCD5dgB5JQaZ+KBKGtKecvR81Ic0ZDjByKdDx0rSEDZ/djQbH+bkIdvfJFm98BfV8hD2zprfVdlu9PxVeyYAkciREohRAplJCaRSAplJCcQogTjSAdlyHRBvSAekJR0QRzogA+mADJkOiCPSAPEtqYBshlRAXC43hxix2QiOuEZkVERykGyNo9idIZKE0HO7XrG6OiMShlDWjstVzdPgXtUH9v0CEidAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQP4HgjZxTpdEii0AAAAASUVORK5CYII=">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86-%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka-PageCache.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D%E4%BC%98%E5%8C%96.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E8%AF%B7%E6%B1%82.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D%E7%9A%84%E6%96%B9%E5%BC%8F.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E8%AE%A1.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/%E5%90%AF%E5%8A%A8Kafka%E6%97%A5%E5%BF%97.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190546632.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190603474.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190615541.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190625953.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190638091.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190649199.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190659184.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190710366.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190719291.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190727329.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190743578.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190754584.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190803270.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190816281.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190832376.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190841109.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190943997.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190954511.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309191004859.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309191013090.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309191048427.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309191102186.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309191118697.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309191131224.png">
 <meta property="article:published_time" content="2023-03-09T10:19:44.444Z">
-<meta property="article:modified_time" content="2023-03-09T10:22:26.848Z">
+<meta property="article:modified_time" content="2023-03-09T11:11:36.020Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="kafka">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9E%B6%E6%9E%84.png">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/03/09/kafka/image-20230309190546632.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://cloud-tour.github.io/2023/03/09/kafka/index.html">
   
@@ -427,7 +425,7 @@
 </ul>
 <p>消息传递模式：<strong>点对点传递模式、发布-订阅模式</strong>。大部分消息系统选用发布-订阅模式。<strong>Kafka就是一种发布-订阅模式</strong>。</p>
 <h3 id="kafka架构"><a class="markdownIt-Anchor" href="#kafka架构"></a> Kafka架构</h3>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9E%B6%E6%9E%84.png" alt="Kafka架构"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190546632.png" alt="image-20230309190546632"></p>
 <p>kafka支持消息持久化，消费端是主动拉取数据，消费状态和订阅关系由客户端负责维护，<strong>消息消费完后，不会立即删除，会保留历史消息</strong>。因此支持多订阅时，消息只会存储一份就可以。</p>
 <ul>
 <li><strong>broker</strong>：kafka集群中包含一个或者多个服务实例（节点），这种服务实例被称为broker（一个broker就是一个节点/一个服务器）</li>
@@ -487,12 +485,12 @@
 <li>生产者和消费者消费数据一般以主题为单位。更细粒度可以到分区级别</li>
 </ul>
 <p>kafka学习了数据库里面的设计，在里面设计了topic（主题），这个东西类似于关系型数据库的表</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-topic.jpg" alt="kafka-topic"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190603474.png" alt="image-20230309190603474"></p>
 <p>此时我需要获取数据，那就直接监听TopicA即可。</p>
 <h4 id="partition分区"><a class="markdownIt-Anchor" href="#partition分区"></a> partition（分区）</h4>
 <p>kafka当中，topic是消息的归类，一个topic可以有多个分区（partition），每个分区保存部分topic的数据，所有的partition当中的数据全部合并起来，就是一个topic当中的所有的数据。一个broker服务下，可以创建多个分区，broker数与分区数没有关系； 在kafka中，每一个分区会有一个编号：编号从0开始。<strong>每一个分区内的数据是有序的，但全局的数据不能保证是有序的。</strong>（有序是指生产什么样顺序，消费时也是什么样的顺序）</p>
 <p>kafka还有一个概念叫Partition（分区），分区具体在服务器上面表现起初就是一个目录，一个主题下面有多个分区，这些分区会存储到不同的服务器上面，或者说，其实就是在不同的主机上建了不同的目录。这些分区主要的信息就存在了.log文件里面。跟数据库里面的分区差不多，是为了提高性能。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-partition.jpg" alt="kafka-partition"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190615541.png" alt="image-20230309190615541"></p>
 <p>至于为什么提高了性能，很简单，多个分区多个线程，多个线程并行处理肯定会比单线程好得多</p>
 <p>Topic和partition像是HBASE里的table和region的概念，table只是一个逻辑上的概念，真正存储数据的是region，这些region会分布式地存储在各个服务器上面，对应于kafka，也是一样，<strong>Topic也是逻辑概念</strong>，而partition就是分布式存储单元。这个设计是保证了海量数据处理的基础。我们可以对比一下，如果HDFS没有block的设计，一个100T的文件也只能单独放在一个服务器上面，那就直接占满整个服务器了，引入block后，大文件可以分散存储在不同的服务器上。</p>
 <p>注意：</p>
@@ -500,24 +498,24 @@
 <p>2.分区的编号是从0开始的</p>
 <p>topic 的分区，一个 topic 可以包含多个 partition，topic 消息保存在各个 partition 上；由于一个 topic 能被分到多个分区上，给 kafka 提供给了并行的处理能力，这也正是 kafka 高吞吐的原因之一。</p>
 <p>partition 物理上由多个 segment 文件组成，每个 segment 大小相等，<strong>顺序读写（这也是 kafka 比较快的原因之一，不需要随机写）</strong>。每个 Segment 数据文件以该段中最小的 offset ，文件扩展名为.log。当查找 offset 的 Message 的时候，通过二分查找快找到 Message 所处于的 Segment 中。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-partition.png" alt="kafka-partition"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190625953.png" alt="image-20230309190625953"></p>
 <h4 id="offset"><a class="markdownIt-Anchor" href="#offset"></a> offset</h4>
 <ul>
 <li>消息在日志中的位置，可以理解是消息在 partition 上的偏移量，也是代表该消息的<strong>唯一序号</strong>。</li>
 <li>同时也是主从之间的需要同步的信息</li>
 </ul>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-offset.png" alt="kafka-offset"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190638091.png" alt="image-20230309190638091"></p>
 <h4 id="producer生产者"><a class="markdownIt-Anchor" href="#producer生产者"></a> producer（生产者）</h4>
 <p>producer主要是用于生产消息，是kafka当中的消息生产者，生产的消息通过topic进行归类，保存到kafka的broker里面。往消息系统里面发送数据的就是生产者。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-producer.jpg" alt="kafka-producer"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190649199.png" alt="image-20230309190649199"></p>
 <h4 id="consumer消费者"><a class="markdownIt-Anchor" href="#consumer消费者"></a> consumer（消费者）</h4>
 <p>consumer是kafka当中的消费者，主要用于消费kafka当中的数据，消费者一定是归属于某个消费组中的。从kafka里读取数据的就是消费者：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-consume.jpg" alt="kafka-consumer"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190659184.png" alt="image-20230309190659184"></p>
 <h4 id="consumer-group消费者组"><a class="markdownIt-Anchor" href="#consumer-group消费者组"></a> consumer group（消费者组）</h4>
 <p>消费者组由一个或者多个消费者组成，<strong>同一个组中的消费者对于同一条消息只消费一次</strong>。每个消费者都属于某个消费者组，如果不指定，那么所有的消费者都属于默认的组。每个消费者组都有一个ID，即group ID。组内的所有消费者协调在一起来消费一个订阅主题( topic)的所有分区(partition)。当然，<strong>每个分区只能由同一个消费组内的一个消费者(consumer)来消费</strong>，可以由不同的<strong>消费组</strong>来消费。partition数量决定了每个consumer group中并发消费者的最大数量。如下图：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/consumer_group%E7%A4%BA%E4%BE%8B.png" alt="consumer_group示例"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190710366.png" alt="image-20230309190710366"></p>
 <p>如上面左图所示，如果只有两个分区，即使一个组内的消费者有4个，也会有两个空闲的。如上面右图所示，有4个分区，每个消费者消费一个分区，并发量达到最大4。在来看如下一幅图：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/consumer_group%E7%A4%BA%E4%BE%8B2.png" alt="consumer_group示例2"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190719291.png" alt="image-20230309190719291"></p>
 <p>如上图所示，不同的消费者组消费同一个topic，这个topic有4个分区，分布在两个节点上。左边的 消费组1有两个消费者，每个消费者就要消费两个分区才能把消息完整的消费完，右边的 消费组2有四个消费者，每个消费者消费一个分区即可。</p>
 <p><strong>总结下kafka中分区与消费组的关系</strong>：</p>
 <p>消费组：由一个或者多个消费者组成，同一个组中的消费者对于同一条消息只消费一次。</p>
@@ -526,26 +524,26 @@
 <p>总结：<strong>分区数越多，同一时间可以有越多的消费者来进行消费，消费数据的速度就会越快，提高消费的性能</strong>。</p>
 <h4 id="partition-replicas分区副本"><a class="markdownIt-Anchor" href="#partition-replicas分区副本"></a> partition replicas（分区副本）</h4>
 <p>kafka 中的分区副本如下图所示：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka%E5%88%86%E5%8C%BA%E5%89%AF%E6%9C%AC.png" alt="kafka分区副本"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190727329.png" alt="image-20230309190727329"></p>
 <p><strong>副本数</strong>（replication-factor）：控制消息保存在几个broker（服务器）上，一般情况下副本数等于broker的个数。</p>
 <p>一个broker服务下，不可以创建多个副本因子。<strong>创建主题时，副本因子应该小于等于可用的broker数</strong>。副本因子操作以分区为单位的。每个分区都有各自的主副本和从副本；主副本叫做leader，从副本叫做 follower（在有多个副本的情况下，kafka会为同一个分区下的所有分区，设定角色关系：一个leader和N个 follower），<strong>处于同步状态的副本叫做in-sync-replicas(ISR)</strong>。</p>
 <h4 id="segment文件"><a class="markdownIt-Anchor" href="#segment文件"></a> segment文件</h4>
 <p>一个partition当中由多个segment文件组成，每个segment文件，包含两部分，一个是 .log 文件，另外一个是 .index 文件，其中 .log 文件包含了我们发送的数据存储，.index 文件，记录的是我们.log文件的数据索引值，便于我们加快数据查询速度。</p>
 <h4 id="message物理结构"><a class="markdownIt-Anchor" href="#message物理结构"></a> message物理结构</h4>
 <p>生产者发送到kafka的每条消息，都被kafka包装成了一个message。message 的物理结构如下图所示：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/message%E7%89%A9%E7%90%86%E7%BB%93%E6%9E%84.png" alt="message物理结构"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190743578.png" alt="image-20230309190743578"></p>
 <p>所以生产者发送给kafka的消息并不是直接存储起来，而是经过kafka的包装，每条消息都是上图这个结构，只有最后一个字段才是真正生产者发送的消息数据。</p>
 <h4 id="zookeeper"><a class="markdownIt-Anchor" href="#zookeeper"></a> zookeeper</h4>
 <p>管理 kafka 集群，负责存储了集群 broker、topic、partition 等 meta 数据存储，同时也负责 broker 故障发现，partition leader 选举，负载均衡等功能。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-zookeeper.png" alt="kafka-zookeeper"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190754584.png" alt="image-20230309190754584"></p>
 <h3 id="消息传递"><a class="markdownIt-Anchor" href="#消息传递"></a> 消息传递</h3>
 <h4 id="点对点消息传递模式"><a class="markdownIt-Anchor" href="#点对点消息传递模式"></a> 点对点消息传递模式</h4>
 <p>在点对点消息系统中，消息持久化到一个队列中。此时，将有一个或多个消费者消费队列中的数据。但是一条消息只能被消费一次。当一个消费者消费了队列中的某条数据之后，该条数据则从消息队列中删除。该模式即使有多个消费者同时消费数据，也能保证数据处理的顺序。这种架构描述示意图如下：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E7%82%B9%E5%AF%B9%E7%82%B9%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F.png" alt="Kafka点对点消息传递模式"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190803270.png" alt="image-20230309190803270"></p>
 <p><strong>生产者发送一条消息到queue，只有一个消费者能收到</strong>。</p>
 <h4 id="发布-订阅消息传递模式"><a class="markdownIt-Anchor" href="#发布-订阅消息传递模式"></a> 发布-订阅消息传递模式</h4>
 <p>在发布-订阅消息系统中，消息被持久化到一个topic中。与点对点消息系统不同的是，消费者可以订阅一个或多个topic，消费者可以消费该topic中所有的数据，同一条数据可以被多个消费者消费，数据被消费后不会立马删除。在发布-订阅消息系统中，消息的生产者称为发布者，消费者称为订阅者。该模式的示例图如下：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E6%A8%A1%E5%BC%8F.png" alt="Kafka发布-订阅消息传递模式"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190816281.png" alt="image-20230309190816281"></p>
 <p><strong>发布者发送到topic的消息，只有订阅了topic的订阅者才会收到消息</strong>。</p>
 <h3 id="服务治理"><a class="markdownIt-Anchor" href="#服务治理"></a> 服务治理</h3>
 <p>既然 Kafka 是分布式的发布/订阅系统，这样如果做的集群之间数据同步和一致性，kafka 是不是肯定不会丢消息呢？以及宕机的时候如果进行 Leader 选举呢？</p>
@@ -554,13 +552,11 @@
 <h4 id="isr"><a class="markdownIt-Anchor" href="#isr"></a> ISR</h4>
 <p>在 Kafka 中，为了保证性能，Kafka 不会采用强一致性的方式来同步主从的数据。而是维护了一个：in-sync Replica 的列表，Leader 不需要等待所有 Follower 都完成同步，只要在 ISR 中的 Follower 完成数据同步就可以发送 ack 给生产者即可认为消息同步完成。同时如果发现 ISR 里面某一个 follower 落后太多的话，就会把它剔除。</p>
 <p>具体流程如下：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86-ISR-1.png" alt="Kafka服务治理-ISR-1"></p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86-ISR-2.png" alt="Kafka服务治理-ISR-2"></p>
-<p><img src="/2023/03/09/kafka/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAAAAACIM/FCAAACh0lEQVR4Ae3ch5W0OgyG4dt/mQJ2xgQPzJoM1m3AbALrxzrf28FzsoP0HykJEEAAAUQTBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEkKK0789+GK/I2ezfQB522PnS1qc8pGgXvr4tE4aY0XOUWlGImThWgyCk6DleixzE7qwBkg/MGiDPlVVAyp1VQGrPKiACDhFI6VkF5LmzCki+sg7IwDoglnVAil0IMkeG9CyUiwsxLFUVFzJJOQaKCjFCDN9RXMjIX7W6ztZXZDKKCyn8sWJvH+nca7WHDN9lROlAliPH9iRKCPI4cswFJQWxB46toLQgQ9jhn5QYZA9DOkoMUoQde5YapAxDWkoNYsOQR3KQd9CxUnIQF4S49CB9ENKlBxmDEKsFUgMCCCCAAHIrSF61f6153Ajy8nyiPr8L5MXnmm4CyT2fzN4DUvHZ+ntA2tOQBRBAAAEEEEAAAQQQ7ZBaC6TwSiDUaYHQ2yuB0MN+ft+43whyrs4rgVCjBUKTFshLC6TUAjGA3AxSaYFYLZBOC2RUAsk8h5qTg9QcbEoOsoQhQ2qQhsO5xCD5dgB5JQaZ+KBKGtKecvR81Ic0ZDjByKdDx0rSEDZ/djQbH+bkIdvfJFm98BfV8hD2zprfVdlu9PxVeyYAkciREohRAplJCaRSAplJCcQogTjSAdlyHRBvSAekJR0QRzogA+mADJkOiCPSAPEtqYBshlRAXC43hxix2QiOuEZkVERykGyNo9idIZKE0HO7XrG6OiMShlDWjstVzdPgXtUH9v0CEidAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQP4HgjZxTpdEii0AAAAASUVORK5CYII=" alt="Kafka服务治理-ISR-3"></p>
-<p><img src="/2023/03/09/kafka/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAAAAACIM/FCAAACh0lEQVR4Ae3ch5W0OgyG4dt/mQJ2xgQPzJoM1m3AbALrxzrf28FzsoP0HykJEEAAAUQTBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEkKK0789+GK/I2ezfQB522PnS1qc8pGgXvr4tE4aY0XOUWlGImThWgyCk6DleixzE7qwBkg/MGiDPlVVAyp1VQGrPKiACDhFI6VkF5LmzCki+sg7IwDoglnVAil0IMkeG9CyUiwsxLFUVFzJJOQaKCjFCDN9RXMjIX7W6ztZXZDKKCyn8sWJvH+nca7WHDN9lROlAliPH9iRKCPI4cswFJQWxB46toLQgQ9jhn5QYZA9DOkoMUoQde5YapAxDWkoNYsOQR3KQd9CxUnIQF4S49CB9ENKlBxmDEKsFUgMCCCCAAHIrSF61f6153Ajy8nyiPr8L5MXnmm4CyT2fzN4DUvHZ+ntA2tOQBRBAAAEEEEAAAQQQ7ZBaC6TwSiDUaYHQ2yuB0MN+ft+43whyrs4rgVCjBUKTFshLC6TUAjGA3AxSaYFYLZBOC2RUAsk8h5qTg9QcbEoOsoQhQ2qQhsO5xCD5dgB5JQaZ+KBKGtKecvR81Ic0ZDjByKdDx0rSEDZ/djQbH+bkIdvfJFm98BfV8hD2zprfVdlu9PxVeyYAkciREohRAplJCaRSAplJCcQogTjSAdlyHRBvSAekJR0QRzogA+mADJkOiCPSAPEtqYBshlRAXC43hxix2QiOuEZkVERykGyNo9idIZKE0HO7XrG6OiMShlDWjstVzdPgXtUH9v0CEidAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQAABBBBAAAEEEEAAAQQQQP4HgjZxTpdEii0AAAAASUVORK5CYII=" alt="Kafka服务治理-ISR-4"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190832376.png" alt="image-20230309190832376"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190841109.png" alt="image-20230309190841109"></p>
 <p>**上述的做法并无法保证 kafka 一定不丢消息。**虽然 Kafka 通过多副本机制中最大限度保证消息不会丢失，但是如果数据已经写入系统 page cache 中但是还没来得及刷入磁盘，此时突然机器宕机或者掉电，那消息自然而然的就会丢失。</p>
 <h4 id="kafka故障恢复"><a class="markdownIt-Anchor" href="#kafka故障恢复"></a> Kafka故障恢复</h4>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E6%9C%8D%E5%8A%A1%E6%B2%BB%E7%90%86-%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D.png" alt="Kafka服务治理-故障恢复"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190943997.png" alt="image-20230309190943997"></p>
 <p>Kafka 通过 Zookeeper 连坐集群的管理，所以这里的选举机制采用的是 Zab(zookeeper 使用)。</p>
 <ul>
 <li>生产者发生消息给 leader，这个时候 leader 完成数据存储，突然发生故障，没有给 producer 返回 ack</li>
@@ -612,21 +608,21 @@
 <li>
 <p><strong>Page Cache</strong></p>
 <p>Kafka 在 OS 系统方面使用了 Page Cache 而不是我们平常所用的 Buffer。Page Cache 其实不陌生，也不是什么新鲜事物</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka-PageCache.png" alt="Kafka-PageCache"></p>
+<p><img src="/2023/03/09/kafka/image-20230309190954511.png" alt="image-20230309190954511"></p>
 <p>我们在 linux 上查看内存的时候，经常可以看到 buff/cache，两者都是用来加速 IO 读写用的，而 cache 是作用于读，也就是说，磁盘的内容可以读到 cache 里面这样，应用程序读磁盘就非常快；而 buff 是作用于写，我们开发写磁盘都是，一般如果写入一个 buff 里面再 flush 就非常快。而 kafka 正是把这两者发挥了极致：</p>
 <p>Kafka 虽然是 scala 写的，但是依旧在 Java 的虚拟机上运行，尽管如此，它尽量避开了 JVM 的限制，它利用了 Page cache 来存储，这样躲开了数据在 JVM 因为 GC 而发生的 STD。另一方面也是 Page Cache 使得它实现了零拷贝，具体下面会讲。</p>
 </li>
 <li>
 <p><strong>零拷贝</strong></p>
 <p>先来看看非零拷贝的情况：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D.jpg" alt="kafka-零拷贝"></p>
+<p><img src="/2023/03/09/kafka/image-20230309191004859.png" alt="image-20230309191004859"></p>
 <p>可以看到数据的拷贝从内存拷贝到kafka服务进程那块，又拷贝到socket缓存那块，整个过程耗费的时间比较高，kafka利用了Linux的sendFile技术（NIO），省去了进程切换和一次数据拷贝，让性能变得更好。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D%E4%BC%98%E5%8C%96.jpg" alt="kafka-零拷贝优化"></p>
+<p><img src="/2023/03/09/kafka/image-20230309191013090.png" alt="image-20230309191013090"></p>
 <p><strong>传统的一次应用程请求数据的过程</strong></p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E4%BC%A0%E7%BB%9F%E6%95%B0%E6%8D%AE%E8%AF%B7%E6%B1%82.png" alt="kafka-传统数据请求"></p>
+<p><img src="/2023/03/09/kafka/image-20230309191048427.png" alt="image-20230309191048427"></p>
 <p>这里大致可以发传统的方式发生了 4 次拷贝，2 次 DMA 和 2 次 CPU，而 CPU 发生了 4 次的切换。（DMA 简单理解就是，在进行 I/O 设备和内存的数据传输的时候，数据搬运的工作全部交给 DMA 控制器，而 CPU 不再参与任何与数据搬运相关的事情）</p>
 <p><strong>零拷贝的方式</strong></p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/kafka-%E9%9B%B6%E6%8B%B7%E8%B4%9D%E7%9A%84%E6%96%B9%E5%BC%8F.png" alt="kafka-零拷贝的方式"></p>
+<img src="/2023/03/09/kafka/image-20230309191102186.png" alt="image-20230309191102186" style="zoom:80%;">
 <p>通过优化我们可以发现，CPU 只发生了 2 次的上下文切换和 3 次数据拷贝。（linux 系统提供了系统事故调用函数“ sendfile()”，这样系统调用，可以直接把内核缓冲区里的数据拷贝到 socket 缓冲区里，不再拷贝到用户态）</p>
 </li>
 <li>
@@ -644,7 +640,7 @@
 <p>这个9936472之类的数字，就是代表了这个日志段文件里包含的起始offset，也就说明这个分区里至少都写入了接近1000万条数据了。Kafka broker有一个参数，log.segment.bytes，限定了每个日志段文件的大小，最大就是1GB，一个日志段文件满了，就自动开一个新的日志段文件来写入，避免单个文件过大，影响文件的读写性能，这个过程叫做log rolling，正在被写入的那个日志段文件，叫做active log segment。如果大家有看前面的两篇有关于HDFS的文章时，就会发现NameNode的edits log也会做出限制，所以这些框架都是会考虑到这些问题。</p>
 <p><strong>问题三：Kafka如何网络设计？</strong></p>
 <p>kafka的网络设计和Kafka的调优有关，这也是为什么它能支持高并发的原因：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/Kafka%E7%9A%84%E7%BD%91%E7%BB%9C%E8%AE%BE%E8%AE%A1.jpg" alt="Kafka的网络设计"></p>
+<p><img src="/2023/03/09/kafka/image-20230309191118697.png" alt="image-20230309191118697"></p>
 <p>首先客户端发送请求全部会先发送给一个Acceptor，broker里面会存在3个线程（默认是3个），这3个线程都是叫做processor，Acceptor不会对客户端的请求做任何的处理，直接封装成一个个socketChannel发送给这些processor形成一个队列，发送的方式是轮询，就是先给第一个processor发送，然后再给第二个，第三个，然后又回到第一个。消费者线程去消费这些socketChannel时，会获取一个个request请求，这些request请求中就会伴随着数据。</p>
 <p>线程池里面默认有8个线程，这些线程是用来处理request的，解析请求，如果request是写请求，就写到磁盘里。读的话返回结果。 processor会从response中读取响应数据，然后再返回给客户端。这就是Kafka的网络三层架构。</p>
 <p>所以如果我们需要对kafka进行增强调优，增加processor并增加线程池里面的处理线程，就可以达到效果。request和response那一块部分其实就是起到了一个缓存的效果，是考虑到processor们生成请求太快，线程数不够不能及时处理的问题。所以这就是一个加强版的reactor网络线程模型。</p>
@@ -658,7 +654,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> export ZK=/usr/local/src/apache-zookeeper-3.7.0-bin</span><br><span class="line">export PATH=$PATH:$ZK/bin</span><br><span class="line">export KAFKA=/usr/local/src/kafka</span><br><span class="line">export PATH=$PATH:$KAFKA/bin</span><br></pre></td></tr></table></figure>
 <p>第六步：启动Kafka：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup kafka-server-start.sh 自己的配置文件路径/server.properties &amp;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/BigData/%E5%90%AF%E5%8A%A8Kafka%E6%97%A5%E5%BF%97.png" alt="启动Kafka日志"></p>
+<p><img src="/2023/03/09/kafka/image-20230309191131224.png" alt="image-20230309191131224"></p>
 <h3 id="spring-boot案例"><a class="markdownIt-Anchor" href="#spring-boot案例"></a> Spring Boot案例</h3>
 <p>第一步：添加依赖</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.kafka&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-kafka&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
