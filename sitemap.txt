@@ -1,3 +1,4 @@
+http://cloud-tour.github.io/2023/03/09/kafka/
 http://cloud-tour.github.io/2023/03/07/%E5%9F%BA%E7%A1%80/
 http://cloud-tour.github.io/2023/02/17/redis/
 http://cloud-tour.github.io/2023/02/17/mysql/
@@ -21,18 +22,20 @@ http://cloud-tour.github.io/tags/nginx/
 http://cloud-tour.github.io/tags/java11/
 http://cloud-tour.github.io/tags/proteus/
 http://cloud-tour.github.io/tags/keil/
+http://cloud-tour.github.io/tags/kafka/
 http://cloud-tour.github.io/tags/mysql/
 http://cloud-tour.github.io/tags/java/
-http://cloud-tour.github.io/tags/redis/
 http://cloud-tour.github.io/tags/ssb/
+http://cloud-tour.github.io/tags/redis/
 http://cloud-tour.github.io/tags/juc/
 http://cloud-tour.github.io/tags/jvm/
 http://cloud-tour.github.io/tags/ssm/
 http://cloud-tour.github.io/categories/linux/
 http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/
+http://cloud-tour.github.io/categories/kafka/
 http://cloud-tour.github.io/categories/mysql/
 http://cloud-tour.github.io/categories/javase/
-http://cloud-tour.github.io/categories/redis/
 http://cloud-tour.github.io/categories/java/
+http://cloud-tour.github.io/categories/redis/
 http://cloud-tour.github.io/categories/juc/
 http://cloud-tour.github.io/categories/jvm/
