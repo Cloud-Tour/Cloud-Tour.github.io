@@ -25,51 +25,51 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="一.JVM内存模型及其各部分的作用  从宏观上来说JVM 内存区域 分为三部分线程共享区域、线程私有区域、直接内存区域(上图static变量该在堆区)。  线程共享区域  堆区 堆区Heap是JVM中最大的一块内存区域，基本上所有的对象实例都是在堆上分配空间。堆区细分为年轻代和老年代，其中年轻代又分为Eden、S0、S1 三个部分，他们默认的比例是8:1:1的大小。  元空间 方法区：   在">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDxZne5WpZnib6lP7IKZpolkHPCd7Wh8vMk6dLUoQQx0TB9DhcjOjeChw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qD9xqr1micZrEG8JtN13Pv1XELtMzhAU0zliaiawiaw0qxaUVia7KvhQXtCPw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/JAVA%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88.png">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDNaEHVXjrGTGCEpNbaAu69YHyOzJ9beqyvZBQHWbH598R2DbdQORLng/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDNSzXFuNEtzoFGdF5eToIia5gsdpgoUDUicpJcicvM9N3KlObicY2eRX6LA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDXG20K10J6v5xl7GXpJvN2WiaKcVaQ33QXQ4I4giaicNu7a1Gv3sicnFKCw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95-%E9%97%AE%E9%A2%98.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/%E6%94%B6%E9%9B%86%E5%99%A8.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/Serial%E6%94%B6%E9%9B%86%E5%99%A8.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/ParNew%E6%94%B6%E9%9B%86%E5%99%A8.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/SerialOld%E6%94%B6%E9%9B%86%E5%99%A8.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/ParallelOld%E6%94%B6%E9%9B%86%E5%99%A8.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CMS%E6%94%B6%E9%9B%86%E5%99%A8.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/G1-Region.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/G1%E6%94%B6%E9%9B%86%E5%99%A8.jpg">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14131260-4f531fdccb83fa85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/JVM-%E7%A3%81%E7%9B%98%E4%B8%8D%E8%B6%B3%E6%8E%92%E6%9F%A5.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/JVM-%E7%A3%81%E7%9B%98%E4%B8%8D%E8%B6%B3%E6%8E%92%E6%9F%A5-du-sh.jpg">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819154844851-2077219236.png">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819160430741-2012660940.png">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161019047-2037837841.png">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161218938-471280901.png">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161244868-297649295.png">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161305681-1001506236.png">
-<meta property="og:image" content="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161352166-1036294546.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-top.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-top-Hp-pid.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-printf.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-jstack.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/OOM%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5-%E6%9F%A5%E7%9C%8B%E5%AE%9E%E4%BE%8B%E6%9C%80%E5%A4%9A%E7%9A%84%E7%B1%BB.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/OOM%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5-%E6%9F%A5%E7%9C%8B%E5%BC%82%E5%B8%B8%E4%BB%A3%E7%A0%81.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/OOM%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5-%E6%9F%A5%E7%9C%8B%E5%BC%82%E5%B8%B8%E4%BB%A3%E7%A0%81%E5%A0%86%E6%A0%88.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/20200119164751943.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/2020011916475242.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/20200119164752266.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/20200119164749513.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181805380.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181825874.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181836276.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181845217.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181854629.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181904677.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181930858.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181940415.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181948534.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181958591.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182009030.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182018615.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182032654.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182046487.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182056316.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182108741.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182117734.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182129739.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182144705.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182152296.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182205167.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182216778.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182227403.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182257689.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182309649.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182320080.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182333976.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182345106.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182352411.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182401340.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182410846.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182425795.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182437341.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182458819.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182515196.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182530350.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182543789.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318182553248.png">
 <meta property="article:published_time" content="2023-02-17T13:16:37.239Z">
-<meta property="article:modified_time" content="2023-02-17T13:18:43.428Z">
+<meta property="article:modified_time" content="2023-03-18T10:25:58.314Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="jvm">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDxZne5WpZnib6lP7IKZpolkHPCd7Wh8vMk6dLUoQQx0TB9DhcjOjeChw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/02/17/jvm/image-20230318181805380.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://cloud-tour.github.io/2023/02/17/jvm/index.html">
   
@@ -430,7 +430,7 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <h1 id="一jvm内存模型及其各部分的作用"><a class="markdownIt-Anchor" href="#一jvm内存模型及其各部分的作用"></a> 一.JVM内存模型及其各部分的作用</h1>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDxZne5WpZnib6lP7IKZpolkHPCd7Wh8vMk6dLUoQQx0TB9DhcjOjeChw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181805380.png" alt="image-20230318181805380"></p>
 <p>从宏观上来说JVM <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzU0OTk3ODQ3Ng==&amp;mid=2247489951&amp;idx=1&amp;sn=07f8d8c9214a524584c7b06be3c1ad4c&amp;scene=21#wechat_redirect">内存区域</a> 分为三部分<code>线程共享区域</code>、<code>线程私有区域</code>、<code>直接内存区域</code>(上图static变量该在堆区)。</p>
 <h2 id="线程共享区域"><a class="markdownIt-Anchor" href="#线程共享区域"></a> 线程共享区域</h2>
 <h3 id="堆区"><a class="markdownIt-Anchor" href="#堆区"></a> 堆区</h3>
@@ -476,8 +476,8 @@
 </blockquote>
 <h3 id="虚拟机栈"><a class="markdownIt-Anchor" href="#虚拟机栈"></a> 虚拟机栈</h3>
 <p>方法的出入栈：调用的方法会被打包成<strong>栈桢</strong>，一个栈桢至少需要包含一个局部变量表、操作数栈、桢数据区、动态链接。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qD9xqr1micZrEG8JtN13Pv1XELtMzhAU0zliaiawiaw0qxaUVia7KvhQXtCPw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/JAVA%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88.png" alt="JAVA虚拟机栈"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181825874.png" alt="image-20230318181825874"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181836276.png" alt="image-20230318181836276"></p>
 <p><strong>动态链接</strong>：</p>
 <blockquote>
 <p>当栈帧内部包含一个指向运行时常量池引用前提下，类加载时候会进行符号引用到直接引用的解析跟链接替换。</p>
@@ -504,7 +504,7 @@
 </blockquote>
 <p>Jvm运行class类的时候，并不是一次性将所有的类都加载到内存中，<strong>而是用到哪个就加载哪个，并且只加载一次</strong>。</p>
 <h2 id="类的生命周期"><a class="markdownIt-Anchor" href="#类的生命周期"></a> 类的生命周期</h2>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDNaEHVXjrGTGCEpNbaAu69YHyOzJ9beqyvZBQHWbH598R2DbdQORLng/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181845217.png" alt="image-20230318181845217"></p>
 <h3 id="加载"><a class="markdownIt-Anchor" href="#加载"></a> 加载</h3>
 <p>加载指的是把class字节码文件从各个来源通过类加载器装载入内存中，这里有两个重点：</p>
 <blockquote>
@@ -530,7 +530,7 @@
 <p>给类静态变量分配内存空间，仅仅是分配空间，比如 public static int age = 14，在准备后age = 0，在初始化阶段 age = 14，如果添加了<strong>final</strong>则在这个阶段直接赋值为14。</p>
 <h3 id="解析"><a class="markdownIt-Anchor" href="#解析"></a> 解析</h3>
 <p>将常量池内的<strong>符号引用</strong>替换为<strong>直接引用</strong>。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDNSzXFuNEtzoFGdF5eToIia5gsdpgoUDUicpJcicvM9N3KlObicY2eRX6LA/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181854629.png" alt="image-20230318181854629"></p>
 <h3 id="初始化"><a class="markdownIt-Anchor" href="#初始化"></a> 初始化</h3>
 <p>前面在加载类阶段用户应用程序可以通过<strong>自定义类加载器</strong>参与之外 其余动作完全由虚拟机主导和控制。此时才是真正开始执行类中定义的代码 ：静态代码块、static 修饰的变量赋值、static final 修饰的<strong>引用类型</strong>变量赋值，会被合并成一个 <code>&lt;cinit&gt;</code> 方法，在初始化时被调用，如果存在父类，先对父类进行初始化。</p>
 <h3 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h3>
@@ -571,7 +571,7 @@
 <p>3、<strong>defineClass()</strong> ：拿到这个字节码之后再调用 defineClass() 方法将字节码转换成 Class 对象。</p>
 </blockquote>
 <h2 id="双亲委派机制"><a class="markdownIt-Anchor" href="#双亲委派机制"></a> 双亲委派机制</h2>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/wJvXicD0z2dXNxVbkGSYyGbTpyVdnA6qDXG20K10J6v5xl7GXpJvN2WiaKcVaQ33QXQ4I4giaicNu7a1Gv3sicnFKCw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181904677.png" alt="image-20230318181904677"></p>
 <p><strong>定义</strong>：</p>
 <blockquote>
 <p>当某个类加载器需要加载某个.class文件时，首先把这个任务委托给他的上级类加载器，递归这个操作，如果上级的类加载器没有加载，自己才会去加载这个类。</p>
@@ -694,7 +694,8 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 <ul>
 <li>每个region被分成了多个card。</li>
 <li>不同region中的card会相互引用。</li>
-<li>图示：<img src="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png" alt="Remembered Sets"></li>
+<li>图示：</li>
+<li><img src="/2023/02/17/jvm/image-20230318181930858.png" alt="image-20230318181930858"></li>
 </ul>
 </li>
 </ul>
@@ -702,9 +703,9 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 <h1 id="七判断对象是否为垃圾是否有引用"><a class="markdownIt-Anchor" href="#七判断对象是否为垃圾是否有引用"></a> 七.判断对象是否为垃圾（是否有引用）</h1>
 <h2 id="引用计数法"><a class="markdownIt-Anchor" href="#引用计数法"></a> 引用计数法</h2>
 <p>引用计数法（Reference Count）会给对象中添加一个引用计数器，每当有一个地方引用它的时候，计数器的值就 +1 ，当引用失效时，计数器值就 -1 ，计数器的值为 0 的对象不可能在被使用，这个时候就可以判定这个对象是垃圾。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95.png" alt="引用计数法"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181940415.png" alt="image-20230318181940415"></p>
 <p>当图中的数值变成0时，这个时候使用引用计数算法就可以判定它是垃圾了，但是引用计数法不能解决一个问题，就是当对象是循环引用的时候，计数器值都不为0，这个时候引用计数器无法通知GC收集器来回收他们，如下图所示：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95-%E9%97%AE%E9%A2%98.png" alt="引用计数法-问题"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181948534.png" alt="image-20230318181948534"></p>
 <p>这个时候就需要使用到我们的根可达算法。</p>
 <h2 id="可达性分析"><a class="markdownIt-Anchor" href="#可达性分析"></a> 可达性分析</h2>
 <p>根可达算法（Root Searching）的意思是说从根上开始搜索，当一个程序启动后，马上需要的那些个对象就叫做根对象，所谓的根可达算法就是首先找到根对象，然后跟着这根线一直往外找到那些有用的。常见的GC roots如下：</p>
@@ -715,7 +716,7 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 <li><strong>JNI：</strong> 第四种是在使用<strong>JNI</strong>技术时，有时候单纯的Java代码并不能满足我们的需求，我们可能需要在Java中调用C或C++的代码，因此会使用<strong>Native方法</strong>，JVM内存中专门有一块本地方法栈，用来保存这些对象的引用，所以本地方法栈中引用的对象也会被作为GC Roots。</li>
 </ul>
 <h1 id="八gc垃圾收集器"><a class="markdownIt-Anchor" href="#八gc垃圾收集器"></a> 八.GC垃圾收集器</h1>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/%E6%94%B6%E9%9B%86%E5%99%A8.jpg" alt="收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318181958591.png" alt="image-20230318181958591"></p>
 <p>GC垃圾收集器的JVM配置参数：</p>
 <ul>
 <li><strong>-XX:+UseSerialGC</strong>：年轻代和老年代都用串行收集器</li>
@@ -764,10 +765,10 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 </table>
 <h3 id="serial收集器"><a class="markdownIt-Anchor" href="#serial收集器"></a> Serial收集器</h3>
 <p>处理GC的只有一条线程，并且在垃圾回收的过程中暂停一切用户线程。最简单的垃圾回收器，但千万别以为它没有用武之地。因为简单，所以高效，它通常用在客户端应用上。因为客户端应用不会频繁创建很多对象，用户也不会感觉出明显的卡顿。相反，它使用的资源更少，也更轻量级。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/Serial%E6%94%B6%E9%9B%86%E5%99%A8.jpg" alt="Serial收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182009030.png" alt="image-20230318182009030"></p>
 <h3 id="parnew收集器"><a class="markdownIt-Anchor" href="#parnew收集器"></a> ParNew收集器</h3>
 <p>ParNew是Serial的多线程版本。由多条GC线程并行地进行垃圾清理。清理过程依然要停止用户线程。ParNew 追求“低停顿时间”，与 Serial 唯一区别就是使用了多线程进行垃圾收集，在多 CPU 环境下性能比 Serial 会有一定程度的提升；但线程切换需要额外的开销，因此在单 CPU 环境中表现不如 Serial。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/ParNew%E6%94%B6%E9%9B%86%E5%99%A8.jpg" alt="ParNew收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182018615.png" alt="image-20230318182018615"></p>
 <h3 id="parallel-scavenge收集器"><a class="markdownIt-Anchor" href="#parallel-scavenge收集器"></a> Parallel Scavenge收集器</h3>
 <p>另一个多线程版本的垃圾回收器。它与ParNew的主要区别是：</p>
 <ul>
@@ -812,10 +813,10 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 </table>
 <h3 id="serial-old收集器"><a class="markdownIt-Anchor" href="#serial-old收集器"></a> Serial Old收集器</h3>
 <p>与年轻代的 Serial 垃圾收集器对应，都是单线程版本，同样适合客户端使用。年轻代的 Serial，使用复制算法。老年代的 Old Serial，使用<strong>标记-整理</strong>算法。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/SerialOld%E6%94%B6%E9%9B%86%E5%99%A8.jpg" alt="SerialOld收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182032654.png" alt="image-20230318182032654"></p>
 <h3 id="parallel-old收集器"><a class="markdownIt-Anchor" href="#parallel-old收集器"></a> Parallel Old收集器</h3>
 <p>Parallel Old 收集器是 Parallel Scavenge 的老年代版本，追求 <strong>CPU 吞吐量</strong>。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/ParallelOld%E6%94%B6%E9%9B%86%E5%99%A8.jpg" alt="ParallelOld收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182046487.png" alt="image-20230318182046487"></p>
 <h3 id="cms收集器"><a class="markdownIt-Anchor" href="#cms收集器"></a> CMS收集器</h3>
 <p><strong>并发标记清除(Concurrent Mark Sweep,CMS)垃圾回收器</strong>，是一款致力于获取最短停顿时间的收集器，使用多个线程来扫描堆内存并标记可被清除的对象，然后清除标记的对象。在下面两种情形下会暂停工作线程：</p>
 <ul>
@@ -823,7 +824,7 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 <li>在做垃圾回收的过程中堆内存中有变化发生</li>
 </ul>
 <p>对比与并行垃圾回收器，CMS回收器使用更多的CPU来保证更高的吞吐量。如果我们可以有更多的CPU用来提升性能，那么CMS垃圾回收器是比并行回收器更好的选择。使用 <code>-XX:+UseParNewGCJVM</code> 参数来开启使用CMS垃圾回收器。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CMS%E6%94%B6%E9%9B%86%E5%99%A8.png" alt="CMS收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182056316.png" alt="image-20230318182056316"></p>
 <p><strong>主要流程如下</strong>：</p>
 <ul>
 <li><strong>初始标记(CMS initial mark)</strong>：仅标记出GC Roots能直接关联到的对象。需要Stop-the-world</li>
@@ -874,7 +875,7 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 <li><strong>清理阶段（会STW）</strong>：更新Region的统计数据，对各个Region的回收价值和成本进行排序，根据用户所期望的停顿时间来制定回收计划，可以自由选择任意多个Region构成回收集，然后把决定回收的那一部分Region的存活对象复制到空的Region中，再清理掉整个旧Region的全部空间。这里的操作涉及存活对象的移动，必须暂停用户线程，由多条回收器线程并行完成的。</li>
 </ul>
 <p>G1收集器中的堆内存被划分为多个大小相等的内存块（Region），每个Region是逻辑连续的一段内存，结构如下：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/G1-Region.png" alt="G1-Region"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182108741.png" alt="image-20230318182108741"></p>
 <p>每个Region被标记了E、S、O和H，说明每个Region在运行时都充当了一种角色，其中H是以往算法中没有的，它代表Humongous（巨大的），这表示这些Region存储的是巨型对象（humongous object，H-obj），当新建对象大小超过Region大小一半时，直接在新的一个或多个连续Region中分配，并标记为H。</p>
 <p>同时G1中引入了<code>RememberSets</code>、<code>CollectionSets</code>帮助更好的执行GC 。</p>
 <blockquote>
@@ -911,7 +912,7 @@ G1收集器：借助 记忆集合 来减少老年代gc时扫描年轻代的范�
 </li>
 </ul>
 <p><strong>G1垃圾回收器</strong> 应用于大的堆内存空间。它将堆内存空间划分为不同的区域，对各个区域并行地做回收工作。G1在回收内存空间后还立即对空闲空间做整合工作以减少碎片。CMS却是在全部停止(stop the world,STW)时执行内存整合工作。对于不同的区域G1根据垃圾的数量决定优先级。使用 <code>-XX:UseG1GCJVM</code> 参数来开启使用G1垃圾回收器。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/G1%E6%94%B6%E9%9B%86%E5%99%A8.jpg" alt="G1收集器"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182117734.png" alt="image-20230318182117734"></p>
 <p><strong>主要流程如下</strong>：</p>
 <ul>
 <li>初始标记(Initial Marking)：标记从GC Root可达的对象。会发生STW</li>
@@ -962,7 +963,7 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="type">void</span> <span class="title">dome</span><span class="params">()</span></span>&#123;</span><br><span class="line">    User user=<span class="keyword">new</span> <span class="built_in">user</span>();</span><br><span class="line">    user.<span class="built_in">sayhi</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>什么是指针碰撞呢？<br>
 假设JVM虚拟机上，堆内存都是规整的。堆内存被一个指针一分为二。指针的左边都被塞满了对象，指针的右变是未使用的区域。每一次有新的对象创建，指针就会向右移动一个对象size的距离。这就被称为指针碰撞。</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/14131260-4f531fdccb83fa85.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182129739.png" alt="image-20230318182129739"></p>
 <p>image</p>
 <p>好，问题来了。如果我们多线程执行刚才那个dome方法，一个线程正在给A对象分配内存，<strong><code>指针还没有来的及修改</code></strong>，其它为B对象分配内存的线程，而且还是引用这之前的指针指向。这样就出现毛病了。如果想避免冲突的话,我们可以进行<strong>加锁</strong>,但是加锁会导致性能比较低,因此JVM里没有采用这种方式;</p>
 <blockquote>
@@ -1009,11 +1010,11 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 <h1 id="十jvm性能调优"><a class="markdownIt-Anchor" href="#十jvm性能调优"></a> 十.JVM性能调优</h1>
 <h2 id="磁盘不足排查"><a class="markdownIt-Anchor" href="#磁盘不足排查"></a> 磁盘不足排查</h2>
 <p>其实，磁盘不足排查算是系统、程序层面的问题排查，并不算是JVM，但是另一方面考虑过来就是，系统磁盘的不足，也会导致JVM的运行异常，所以也把磁盘不足算进来了。并且排查磁盘不足，是比较简单，就是几个命令，然后就是逐层的排查，首先第一个命令就是<strong>df -h</strong>，查询磁盘的状态：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/JVM-%E7%A3%81%E7%9B%98%E4%B8%8D%E8%B6%B3%E6%8E%92%E6%9F%A5.jpg" alt="JVM-磁盘不足排查"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182144705.png" alt="image-20230318182144705"></p>
 <p>从上面的显示中其中第一行使用的2.8G最大，然后是挂载在 <strong>/</strong> 目录下，我们直接<strong>cd /</strong>。然后通过执行：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh *</span><br></pre></td></tr></table></figure>
 <p>查看各个文件的大小，找到其中最大的，或者说存储量级差不多的并且都非常大的文件，把那些没用的大文件删除就好。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/JVM-%E7%A3%81%E7%9B%98%E4%B8%8D%E8%B6%B3%E6%8E%92%E6%9F%A5-du-sh.jpg" alt="JVM-磁盘不足排查-du-sh"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182152296.png" alt="image-20230318182152296"></p>
 <p>然后，就是直接cd到对应的目录也是执行：du -sh *，就这样一层一层的执行，找到对应的没用的，然后文件又比较大的，可以直接删除。</p>
 <h2 id="堆外内存排查与解决"><a class="markdownIt-Anchor" href="#堆外内存排查与解决"></a> 堆外内存排查与解决</h2>
 <p>Metaspace 属于堆外内存，但由于它是单独管理的，所以排查起来没什么难度。</p>
@@ -1039,7 +1040,7 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 <p>我们有一个服务，非常的奇怪，在某个版本之后，占用的内存开始增长，直到虚拟机分配的内存上限，但是并不会 OOM。</p>
 <p>如果你开启了 SWAP，会发现这个应用也会毫不犹豫的将它吞掉，有多少吞多少。</p>
 <p>说它的内存增长，是通过 top 命令去观察的，看它的 <strong>RES</strong> 列的数值；反之，如果使用 jmap 命令去看内存占用，得到的只是堆的大小，只能看到一小块可怜的空间。</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819154844851-2077219236.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182205167.png" alt="image-20230318182205167"></p>
 <p>使用 ps 也能看到相同的效果。我们观测到，除了虚拟内存比较高，达到了 17GB 以外，实际使用的内存 RSS 也夸张的达到了 7 GB，远远超过了 -Xmx 的设定。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root]$ ps -p 75 -o rss,vsz  </span><br><span class="line">RSS    VSZ 7152568 17485844</span><br></pre></td></tr></table></figure>
 <p>使用 jps 查看启动参数，发现分配了大约 3GB 的堆内存。实际内存使用超出了最大内存设定的一倍还多，这明显是不正常的，肯定是使用了堆外内存。</p>
@@ -1067,7 +1068,7 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 <p>我们在一台 <strong>4GB</strong> 的虚拟机上使用上面的命令。启动程序之后，发现进程使用的内存迅速升到 <strong>2.4GB</strong>。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"># jcmd 2154  VM.native_memory summary</span><br><span class="line">2154:</span><br><span class="line">Native Memory Tracking:</span><br><span class="line"></span><br><span class="line">Total: reserved=2370381KB, committed=1071413KB</span><br><span class="line">-                 Java Heap (reserved=1048576KB, committed=1048576KB)</span><br><span class="line">                            (mmap: reserved=1048576KB, committed=1048576KB)</span><br><span class="line"></span><br><span class="line">-                     Class (reserved=1056899KB, committed=4995KB)</span><br><span class="line">                            (classes #432)</span><br><span class="line">                            (malloc=131KB #328)</span><br><span class="line">                            (mmap: reserved=1056768KB, committed=4864KB)</span><br><span class="line"></span><br><span class="line">-                    Thread (reserved=10305KB, committed=10305KB)</span><br><span class="line">                            (thread #11)</span><br><span class="line">                            (stack: reserved=10260KB, committed=10260KB)</span><br><span class="line">                            (malloc=34KB #52)</span><br><span class="line">                            (arena=12KB #18)</span><br><span class="line"></span><br><span class="line">-                      Code (reserved=249744KB, committed=2680KB)</span><br><span class="line">                            (malloc=144KB #502)</span><br><span class="line">                            (mmap: reserved=249600KB, committed=2536KB)</span><br><span class="line"></span><br><span class="line">-                        GC (reserved=2063KB, committed=2063KB)</span><br><span class="line">                            (malloc=7KB #80)</span><br><span class="line">                            (mmap: reserved=2056KB, committed=2056KB)</span><br><span class="line"></span><br><span class="line">-                  Compiler (reserved=138KB, committed=138KB)</span><br><span class="line">                            (malloc=8KB #38)</span><br><span class="line">                            (arena=131KB #5)</span><br><span class="line"></span><br><span class="line">-                  Internal (reserved=789KB, committed=789KB)</span><br><span class="line">                            (malloc=757KB #1272)</span><br><span class="line">                            (mmap: reserved=32KB, committed=32KB)</span><br><span class="line"></span><br><span class="line">-                    Symbol (reserved=1535KB, committed=1535KB)</span><br><span class="line">                            (malloc=983KB #114)</span><br><span class="line">                            (arena=552KB #1)</span><br><span class="line"></span><br><span class="line">-    Native Memory Tracking (reserved=159KB, committed=159KB)</span><br><span class="line">                            (malloc=99KB #1399)</span><br><span class="line">                            (tracking overhead=60KB)</span><br><span class="line"></span><br><span class="line">-               Arena Chunk (reserved=174KB, committed=174KB)</span><br><span class="line">                            (mall</span><br></pre></td></tr></table></figure>
 <p>可惜的是，这个名字让人振奋的工具并不能如它描述的一样，看到我们这种泄漏的场景。下图这点小小的空间，是不能和 2GB 的内存占用相比的。</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819160430741-2012660940.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182216778.png" alt="image-20230318182216778"></p>
 <p>NMT 能看到堆内内存、Code 区域或者使用 unsafe.allocateMemory 和 DirectByteBuffer 申请的堆外内存，虽然是个好工具但问题并不能解决。</p>
 <p>使用 jmap 工具，dump 一份堆快照，然后使用 MAT 分析，依然不能找到这部分内存。</p>
 <h3 id="4-pmap"><a class="markdownIt-Anchor" href="#4-pmap"></a> 4. pmap</h3>
@@ -1087,7 +1088,7 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 <p><strong>注意，这个命令会影响服务，要慎用。</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pid=$1;grep rw-p /proc/$pid/maps | sed -n &#x27;s/^([0-9a-f]*)-([0-9a-f]*) .*$/1 2/p&#x27; | while read start stop; do gdb --batch --pid $pid -ex &quot;dump memory $1-$start-$stop.dump 0x$start 0x$stop&quot;; done</span><br></pre></td></tr></table></figure>
 <p>这个命令十分霸道，甚至把加载到内存中的 class 文件、堆文件一块给 dump 下来。这是机器的原始内存，大多数文件我们打不开。</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161019047-2037837841.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182227403.png" alt="image-20230318182227403"></p>
 <p>更多时候，只需要 dump 一部分内存就可以。再次提醒操作会影响服务，注意 dump 的内存块大小，线上一定要慎用。</p>
 <p>我们复制 pman 的一块 64M 内存，比如 00007f2d70000000，然后去掉前面的 0，使用下面代码得到内存块的开始和结束地址。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/2154/maps | grep 7f2d70000000</span><br><span class="line">7f2d6fff1000-7f2d70000000 ---p 00000000 00:00 0 7f2d70000000-7f2d73ffc000 rw-p 00000000 00:00 0</span><br></pre></td></tr></table></figure>
@@ -1104,12 +1105,12 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 <p>使用 perf record -g -p 2154 开启监控栈函数调用，然后访问服务器的 8888 端口，这将会把内存使用的阈值增加到 85%，我们的程序会逐渐把这部分内存占满，你可以手工观察这个过程。</p>
 <p>perf 运行一段时间后 Ctrl+C 结束，会生成一个文件 perf.data。</p>
 <p>执行 perf report -i perf.data 查看报告。</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161218938-471280901.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182257689.png" alt="image-20230318182257689"></p>
 <p>如图，一般第三方 JNI 程序，或者 JDK 内的模块，都会调用相应的本地函数，在 Linux 上，这些函数库的后缀都是 so。</p>
 <p>我们依次浏览用的可疑资源，发现了“<a target="_blank" rel="noopener" href="http://libzip.so">libzip.so</a>”，还发现了不少相关的调用。搜索 zip（输入 / 进入搜索模式），结果如下：</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161244868-297649295.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182309649.png" alt="image-20230318182309649"></p>
 <p>查看 JDK 代码，发现 bzip 大量使用了 native  方法。也就是说，有大量内存的申请和销毁，是在堆外发生的。</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161305681-1001506236.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182320080.png" alt="image-20230318182320080"></p>
 <p>进程调用了Java_java_util_zip_Inflater_inflatBytes() 申请了内存，却没有调用 Deflater 释放内存。与 pmap 内存地址相比对，确实是 zip 在搞鬼。</p>
 <h3 id="7-gperftools"><a class="markdownIt-Anchor" href="#7-gperftools"></a> 7. gperftools</h3>
 <p>google 还有一个类似的、非常好用的工具，叫做 gperftools，我们主要用到它的 Heap Profiler，功能更加强大。</p>
@@ -1118,7 +1119,7 @@ java中我们要创建一个对象,用关键字new就可以了。但是，在我
 export LD_PRELOAD=/usr/lib64/libtcmalloc.so<br>
 export HEAPPROFILE=/opt/test/heap</p>
 <p>在同一个终端，再次启动我们的应用程序，可以看到内存申请动作都被记录到了 opt 目录下的 test 目录。</p>
-<p><img src="https://img2020.cnblogs.com/blog/593998/202108/593998-20210819161352166-1036294546.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182333976.png" alt="image-20230318182333976"></p>
 <p>接下来，我们就可以使用 pprof 命令分析这些文件。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /opt/test</span><br><span class="line">pprof -text *heap  | head -n 200</span><br></pre></td></tr></table></figure>
 <p>使用这个工具，能够一眼追踪到申请内存最多的函数。Java_java_util_zip_Inflater_init 这个函数立马就被发现了。</p>
@@ -1152,19 +1153,19 @@ export HEAPPROFILE=/opt/test/heap</p>
 <ul>
 <li>
 <p>第一步：首先通过<strong>top</strong>命令可以查看到id为<strong>3806</strong>的进程所占的CPU最高：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-top.jpg" alt="CPU过高排查-top"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182345106.png" alt="image-20230318182345106"></p>
 </li>
 <li>
 <p>第二步：然后通过<strong>top -Hp pid</strong>命令，找到占用CPU最高的线程：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-top-Hp-pid.jpg" alt="CPU过高排查-top-Hp-pid"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182352411.png" alt="image-20230318182352411"></p>
 </li>
 <li>
 <p>第三步：接着通过：<strong>printf ‘%x\n’ tid</strong>命令将线程的tid转换为十六进制：xid：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-printf.jpg" alt="CPU过高排查-printf"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182401340.png" alt="image-20230318182401340"></p>
 </li>
 <li>
 <p>第四步：最后通过：<strong>jstack pid|grep xid -A 30</strong>命令就是输出线程的堆栈信息，线程所在的位置：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/CPU%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5-jstack.jpg" alt="CPU过高排查-jstack"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182410846.png" alt="image-20230318182410846"></p>
 </li>
 <li>
 <p>第五步：还可以通过<strong>jstack -l pid &gt; 文件名称.txt</strong> 命令将线程堆栈信息输出到文件，线下查看。</p>
@@ -1195,10 +1196,10 @@ export HEAPPROFILE=/opt/test/heap</p>
 <p>接下来我们屋来看看OOM的排查，出现OOM异常后dump出了堆转储文件，然后打开jdk自带的Visual VM工具，导入堆转储文件，首先我使用的OOM异常代码如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">class OOM &#123;</span><br><span class="line"></span><br><span class="line">        static class User&#123;</span><br><span class="line">                private String name;</span><br><span class="line">                private int age;</span><br><span class="line"></span><br><span class="line">                public User(String name, int age)&#123;</span><br><span class="line">                        this.name = name;</span><br><span class="line">                        this.age = age;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">                List&lt;User&gt; list = new ArrayList&lt;&gt;();</span><br><span class="line">                for (int i = 0; i &lt; Integer.MAX_VALUE; i++) &#123;</span><br><span class="line">                        Thread.sleep(1000);</span><br><span class="line">                        User user = new User(&quot;zhangsan&quot;+i,i);</span><br><span class="line">                        list.add(user);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>代码很简单，就是往集合里面不断地add对象，带入堆转储文件后，在类和实例那栏就可以看到实例最多的类：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/OOM%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5-%E6%9F%A5%E7%9C%8B%E5%AE%9E%E4%BE%8B%E6%9C%80%E5%A4%9A%E7%9A%84%E7%B1%BB.jpg" alt="OOM异常排查-查看实例最多的类"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182425795.png" alt="image-20230318182425795"></p>
 <p>这样就找到导致OOM异常的类，还可以通过下面的方法查看导致OOM异常的线程堆栈信息，找到对应异常的代码段。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/OOM%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5-%E6%9F%A5%E7%9C%8B%E5%BC%82%E5%B8%B8%E4%BB%A3%E7%A0%81.jpg" alt="OOM异常排查-查看异常代码"></p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/OOM%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5-%E6%9F%A5%E7%9C%8B%E5%BC%82%E5%B8%B8%E4%BB%A3%E7%A0%81%E5%A0%86%E6%A0%88.jpg" alt="OOM异常排查-查看异常代码堆栈"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182437341.png" alt="image-20230318182437341"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182458819.png" alt="image-20230318182458819"></p>
 <p>上面的方法是排查已经出现了OOM异常的方法，肯定是防线的最后一步，那么在此之前怎么防止出现OOM异常呢？</p>
 <p>一般大厂都会有自己的监控平台，能够实施的<strong>监控测试环境、预览环境、线上实施的服务健康状况（CPU、内存）</strong> 等信息，对于频繁GC，并且GC后内存的回收率很差的，就要引起我们的注意了。</p>
 <p>因为一般方法的长度合理，95%以上的对象都是朝生夕死，在<strong>Minor GC</strong>后只剩少量的存活对象，所以在代码层面上应该避免<strong>方法过长、大对象</strong>的现象。</p>
@@ -1207,16 +1208,16 @@ export HEAPPROFILE=/opt/test/heap</p>
 <p>项目频繁YGC 、FGC问题排查</p>
 <h3 id="内存问题"><a class="markdownIt-Anchor" href="#内存问题"></a> 内存问题</h3>
 <p>对象内存占用、实例个数监控</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/20200119164751943.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182515196.png" alt="image-20230318182515196"></p>
 <p>对象内存占用、年龄值监控</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/2020011916475242.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182530350.png" alt="image-20230318182530350"></p>
 <p>通过上面两张图发现这些对象占用内存比较大而且存活时间也是比较常，所以survivor 中的空间被这些对象占用，而如果缓存再次刷新则会创建同样大小对象来替换老数据，这时发现eden内存空间不足，就会触发yonggc 如果yonggc 结束后发现eden空间还是不够则会直接放到老年代，所以这样就产生了大对象的提前晋升，导致fgc增加……</p>
 <p><strong>优化办法</strong>：优化两个缓存对象，将缓存对象大小减小。优化一下两个对象，缓存关键信息！</p>
 <h3 id="cpu耗时问题排查"><a class="markdownIt-Anchor" href="#cpu耗时问题排查"></a> CPU耗时问题排查</h3>
 <p>Cpu使用耗时监控：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/20200119164752266.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182543789.png" alt="image-20230318182543789"></p>
 <p>耗时、调用次数监控：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JVM/20200119164749513.png" alt="img"></p>
+<p><img src="/2023/02/17/jvm/image-20230318182553248.png" alt="image-20230318182553248"></p>
 <p>从上面监控图可以看到主要耗时还是在网络请求，没有看到具体业务代码消耗过错cpu……</p>
 <h2 id="调优参数"><a class="markdownIt-Anchor" href="#调优参数"></a> 调优参数</h2>
 <h3 id="堆"><a class="markdownIt-Anchor" href="#堆"></a> 堆</h3>
