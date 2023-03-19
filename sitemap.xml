@@ -180,14 +180,14 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/java11/</loc>
+    <loc>http://cloud-tour.github.io/tags/nginx/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/nginx/</loc>
+    <loc>http://cloud-tour.github.io/tags/java11/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -201,7 +201,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/juc/</loc>
+    <loc>http://cloud-tour.github.io/tags/kafka/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -215,14 +215,21 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/mysql/</loc>
+    <loc>http://cloud-tour.github.io/tags/proteus/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/kafka/</loc>
+    <loc>http://cloud-tour.github.io/tags/keil/</loc>
+    <lastmod>2023-03-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/mysql/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -243,14 +250,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/proteus/</loc>
-    <lastmod>2023-03-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/tags/keil/</loc>
+    <loc>http://cloud-tour.github.io/tags/juc/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -273,14 +273,14 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/juc/</loc>
+    <loc>http://cloud-tour.github.io/categories/javase/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/javase/</loc>
+    <loc>http://cloud-tour.github.io/categories/kafka/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -294,14 +294,14 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/mysql/</loc>
+    <loc>http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/kafka/</loc>
+    <loc>http://cloud-tour.github.io/categories/mysql/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -322,7 +322,7 @@
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/</loc>
+    <loc>http://cloud-tour.github.io/categories/juc/</loc>
     <lastmod>2023-03-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

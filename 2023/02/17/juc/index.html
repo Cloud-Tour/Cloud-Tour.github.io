@@ -84,7 +84,7 @@
 <meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/juc/image-20230319181948816.png">
 <meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/juc/image-20230319182006013.png">
 <meta property="article:published_time" content="2023-02-17T13:02:02.380Z">
-<meta property="article:modified_time" content="2023-03-19T10:20:27.353Z">
+<meta property="article:modified_time" content="2023-03-19T11:12:04.540Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="juc">
@@ -1079,14 +1079,31 @@
 <h1 id="10-countdownlatch"><a class="markdownIt-Anchor" href="#10-countdownlatch"></a> 10. CountDownLatch</h1>
 <p>用来进行线程同步协作，<strong>等待所有线程完成倒计时</strong>。 其中构造参数用来初始化等待计数值，await() 用来等待计数归零，countDown() 用来让计数减一</p>
 <p>CountDownLatch是一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。</p>
+<p><strong>原理</strong></p>
+<ul>
+<li>CountDownLatch也是基于AQS实现的，它的实现机制很简单</li>
+<li>当我们在构建CountDownLatch对象时，传入的值其实就会赋值给 AQS 的关键变量state</li>
+<li>执行countDown方法时，其实就是利用CAS 将state 减一</li>
+<li>执行await方法时，其实就是判断state是否为0，不为0则加入到队列中，将该线程阻塞掉（除了头结点）</li>
+<li>因为头节点会一直自旋等待state为0，当state为0时，头节点把剩余的在队列中阻塞的节点也一并唤醒</li>
+</ul>
 <p><strong>CountDownLatch和CyclicBarrier的区别</strong></p>
 <ul>
-<li>CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；而CyclicBarrier则是允许N个线程相互等待</li>
+<li>CountDownLatch允许一个或多个线程一直等待，直到这些线程完成它们的操作，而CyclicBarrier不一样，它往往是当线程到达某状态后，暂停下来等待其他线程，等到所有线程均到达以后，才继续执行</li>
+<li>CountDownLatch调用await()通常是主线程/调用线程，而CyclicBarrier调用await()是在任务线程调用的。所以，CyclicBarrier中的阻塞的是任务的线程，而主线程是不受影响的。</li>
 <li>CountDownLatch的计数器无法被重置；CyclicBarrier的计数器可以被重置后使用，因此它被称为是循环的barrier</li>
 </ul>
 <h1 id="11cyclicbarrier"><a class="markdownIt-Anchor" href="#11cyclicbarrier"></a> 11.CyclicBarrier</h1>
 <p>循环栅栏，用来进行线程协作，等待线程<strong>满足某个计数</strong>。构造时设置『计数个数』，每个线程执 行到某个需要“同步”的时刻调用 await() 方法进行等待，当等待的线程数满足『计数个数』时，继续执行</p>
 <p>CyclicBarrier是一个同步辅助类，允许一组线程互相等待，直到到达某个公共屏障点 (common barrier point)。因为该 barrier 在释放等待线程后可以重用，所以称它为循环 的 barrier。</p>
+<p><strong>原理</strong></p>
+<ul>
+<li>从源码不难发现的是，它没有像CountDownLatch和ReentrantLock使用AQS的state变量，而CyclicBarrier是直接借助ReentrantLock加上Condition 等待唤醒的功能进而实现的</li>
+<li>在构建CyclicBarrier时，传入的值会赋值给CyclicBarrier内部维护count变量，也会赋值给parties变量（这是可以复用的关键）</li>
+<li>每次调用await时，会将count -1 ，操作count值是直接使用ReentrantLock来保证线程安全性</li>
+<li>如果count不为0，则添加线程到condition队列中</li>
+<li>如果count等于0时，则把节点从condition队列添加至AQS的队列中进行全部唤醒，并且将parties的值重新赋值为count的值（实现复用）</li>
+</ul>
 <h1 id="12多线程通信"><a class="markdownIt-Anchor" href="#12多线程通信"></a> 12.多线程通信</h1>
 <h2 id="通信"><a class="markdownIt-Anchor" href="#通信"></a> 通信</h2>
 <p>多线程通讯的方式主要包括以下几种：</p>
