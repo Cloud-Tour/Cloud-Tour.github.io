@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>java线程池详解 | Hexo</title>
+  <meta name="description" content="线程池 线程池（thread pool）：一种线程使用模式。线程过多会带来调度开销，进而影响缓存局部性和整体性能。而线程池维护着多个线程，对线程统一管理。 线程池就是存放线程的池子，池子里存放了很多可以复用的线程。 创建线程和销毁线程的花销是比较大的（手动new Thread 类），创建和消耗线程的时间有可能比处理业务的时间还要长。这样频繁的创建线程和销毁线程是比较消耗资源的。（我们可以把创建和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java线程池详解">
+<meta property="og:url" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="线程池 线程池（thread pool）：一种线程使用模式。线程过多会带来调度开销，进而影响缓存局部性和整体性能。而线程池维护着多个线程，对线程统一管理。 线程池就是存放线程的池子，池子里存放了很多可以复用的线程。 创建线程和销毁线程的花销是比较大的（手动new Thread 类），创建和消耗线程的时间有可能比处理业务的时间还要长。这样频繁的创建线程和销毁线程是比较消耗资源的。（我们可以把创建和">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213161108770.png">
+<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/JAVA/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213163448999.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213163530988.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213163840871.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213165241399.png">
+<meta property="article:published_time" content="2023-04-02T11:55:50.087Z">
+<meta property="article:modified_time" content="2023-04-04T04:42:52.373Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="线程池">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213161108770.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Cloud-Tour" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar2.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Cloud-Tour</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Development Engineer &amp; Java</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> MaoMing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Cloud-Tour" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/">51单片机</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javase/">javase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafka/">kafka</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AQS/" rel="tag">AQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debian/" rel="tag">debian</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java11/" rel="tag">java11</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/juc/" rel="tag">juc</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keil/" rel="tag">keil</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proteus/" rel="tag">proteus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssb/" rel="tag">ssb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssm/" rel="tag">ssm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AQS/" style="font-size: 13px;">AQS</a> <a href="/tags/debian/" style="font-size: 13.5px;">debian</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/java11/" style="font-size: 13px;">java11</a> <a href="/tags/juc/" style="font-size: 13.5px;">juc</a> <a href="/tags/jvm/" style="font-size: 13.5px;">jvm</a> <a href="/tags/kafka/" style="font-size: 13px;">kafka</a> <a href="/tags/keil/" style="font-size: 13px;">keil</a> <a href="/tags/mysql/" style="font-size: 13px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/proteus/" style="font-size: 13px;">proteus</a> <a href="/tags/redis/" style="font-size: 13px;">redis</a> <a href="/tags/ssb/" style="font-size: 13px;">ssb</a> <a href="/tags/ssm/" style="font-size: 13px;">ssm</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" style="font-size: 13px;">线程池</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/juc/">juc</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/02/AQS%E5%8E%9F%E7%90%86%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="title">AQS原理流程解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-02T14:30:07.396Z" itemprop="datePublished">2023-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/juc/">juc</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/" class="title">java线程池详解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-02T11:55:50.087Z" itemprop="datePublished">2023-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/kafka/">kafka</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/11/kafka/" class="title">Kafka</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-11T11:18:45.210Z" itemprop="datePublished">2023-03-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java/">java</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/03/07/%E5%9F%BA%E7%A1%80/" class="title">基础</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-03-07T10:42:48.718Z" itemprop="datePublished">2023-03-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/redis/">redis</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/02/17/redis/" class="title">redis</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-02-17T13:22:50.541Z" itemprop="datePublished">2023-02-17</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">1.</span> <span class="toc-text"> 线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%8A%B6%E6%80%81"><span class="toc-number">1.1.</span> <span class="toc-text"> 线程池状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text"> 工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text"> 构造方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97"><span class="toc-number">1.4.</span> <span class="toc-text"> 工作队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#newfixedthreadpool"><span class="toc-number">1.5.</span> <span class="toc-text"> newFixedThreadPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#newcachedthreadpool"><span class="toc-number">1.6.</span> <span class="toc-text"> newCachedThreadPool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#newsinglethreadexecutor"><span class="toc-number">1.7.</span> <span class="toc-text"> newSingleThreadExecutor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E6%8F%90%E4%BA%A4"><span class="toc-number">1.8.</span> <span class="toc-text"> 任务提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E9%97%AD%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">1.9.</span> <span class="toc-text"> 关闭线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="toc-number">1.10.</span> <span class="toc-text"> 任务调度线程池</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#forkjoin"><span class="toc-number">1.11.</span> <span class="toc-text"> Fork&#x2F;Join</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-java线程池详解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      java线程池详解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/" class="article-date">
+	  <time datetime="2023-04-02T11:55:50.087Z" itemprop="datePublished">2023-04-02</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/juc/">juc</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="线程池"><a class="markdownIt-Anchor" href="#线程池"></a> 线程池</h1>
+<p><strong>线程池（thread pool</strong>）：一种线程使用模式。线程过多会带来调度开销，进而影响缓存局部性和整体性能。而线程池维护着多个线程，对线程统一管理。</p>
+<p>线程池就是存放线程的池子，池子里存放了很多可以复用的线程。</p>
+<p>创建线程和销毁线程的花销是比较大的（手动new Thread 类），创建和消耗线程的时间有可能比处理业务的时间还要长。这样频繁的创建线程和销毁线程是比较消耗资源的。（我们可以把创建和销毁的线程的过程去掉）。</p>
+<h2 id="线程池状态"><a class="markdownIt-Anchor" href="#线程池状态"></a> 线程池状态</h2>
+<p>ThreadPoolExecutor 使用 int 的高 3 位来表示线程池状态，低 29 位表示线程数量</p>
+<p><img src="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213161108770.png" alt="image-20230213161108770"></p>
+<p>从数字上比较，TERMINATED &gt; TIDYING &gt; STOP &gt; SHUTDOWN &gt; RUNNING</p>
+<p>这些信息存储在一个原子变量 ctl 中，目的是将线程池状态与线程个数合二为一，这样就可以用一次 cas 原子操作 进行赋值</p>
+<ul>
+<li><strong>running</strong>：初始化后的状态，表示线程池可以处理任务。</li>
+<li><strong>shutdown</strong>：调用线程池的shutdown方法会使线程进入shutdown状态，从而调用execute的时候会抛出异常。但如果阻塞队列中还有任务，则会先将阻塞队列中的认为执行完，才会后收所有线程。</li>
+<li><strong>stop</strong>：调用线程池的shutdownnow方法会使线程进入stop状态，既不能接受新的任务，也不能把阻塞队列中的任务执行完。</li>
+<li><strong>tidying</strong>：在执行玩shutdownnow方法的时候，关闭完所有线程的时候，就会调用tryTerminate（）方法</li>
+<li><strong>terminated</strong>：线程池处于TIDYING状态后，会执行terminated（）方法，执行完后就i进入terminated状态，在ThreadPoolExecutor中的terminated（）是一个空方法，可以自定义线程池重写这个方法，实现自定义的业务逻辑。</li>
+</ul>
+<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/JAVA/%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" alt="线程池生命周期"></p>
+<h2 id="工作流程"><a class="markdownIt-Anchor" href="#工作流程"></a> 工作流程</h2>
+<ul>
+<li>
+<p>提交任务</p>
+</li>
+<li>
+<p>当工作线程数小于核心线程数时，直接创建新的核心工作线程</p>
+</li>
+<li>
+<p>当工作线程数不小于核心线程数时，就需要尝试将任务添加到阻塞队列中去</p>
+</li>
+<li>
+<p>如果能够加入成功，说明队列还没有满，那么需要做以下的二次验证来保证添加进去的任务能够成功被执行</p>
+</li>
+<li>
+<p>验证当前线程池的运行状态，如果是非RUNNING状态，则需要将任务从阻塞队列中移除，然后拒绝该任务</p>
+</li>
+<li>
+<p>验证当前线程池中的工作线程的个数，如果为0，则需要主动添加一个空工作线程来执行刚刚添加到阻塞队列中的任务</p>
+</li>
+<li>
+<p>如果加入失败，则说明队列已经满了，那么这时就需要创建新的“临时”工作线程来执行任务</p>
+</li>
+<li>
+<p>如果创建成功，则直接执行该任务</p>
+</li>
+<li>
+<p>如果创建失败，则说明工作线程数已经等于最大线程数了，则只能拒绝该任务了</p>
+</li>
+</ul>
+<h2 id="构造方法"><a class="markdownIt-Anchor" href="#构造方法"></a> 构造方法</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">ThreadPoolExecutor</span><span class="params">(<span class="type">int</span> corePoolSize,</span></span><br><span class="line"><span class="params"> 						  <span class="type">int</span> maximumPoolSize,</span></span><br><span class="line"><span class="params"> 						  <span class="type">long</span> keepAliveTime,</span></span><br><span class="line"><span class="params"> 						  TimeUnit unit,</span></span><br><span class="line"><span class="params"> 						  BlockingQueue&lt;Runnable&gt; workQueue,</span></span><br><span class="line"><span class="params"> 					      ThreadFactory threadFactory,</span></span><br><span class="line"><span class="params">					      RejectedExecutionHandler handler)</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>corePoolSize 核心线程数目 (最多保留的线程数)</p>
+<ul>
+<li><strong>CPU密集型：corePoolSize = CPU核数 + 1</strong></li>
+<li><strong>IO密集型：corePoolSize = CPU核数 * 2</strong></li>
+</ul>
+</li>
+<li>
+<p>maximumPoolSize 最大线程数目</p>
+</li>
+<li>
+<p>keepAliveTime 生存时间 - 针对救急线程</p>
+</li>
+<li>
+<p>unit 时间单位 - 针对救急线程</p>
+</li>
+<li>
+<p>workQueue 阻塞队列</p>
+</li>
+<li>
+<p>threadFactory 线程工厂 - 可以为线程创建时起个好名字</p>
+</li>
+<li>
+<p>handler 拒绝策略（可通过实现<code>RejectedExecutionHandler</code> 接口自定义拒绝策略）</p>
+</li>
+</ul>
+<h2 id="工作队列"><a class="markdownIt-Anchor" href="#工作队列"></a> 工作队列</h2>
+<p><strong>1、无界队列</strong></p>
+<p>队列大小无限制，常用的为无界的<code>LinkedBlockingQueue</code>，使用该队列作为阻塞队列时要尤其当心，当任务耗时较长时可能会导致大量新任务在队列中堆积最终导致OOM。阅读代码发现，<code>Executors.newFixedThreadPool</code> 采用就是 <code>LinkedBlockingQueue</code>，而博主踩到的就是这个坑，当QPS很高，发送数据很大，大量的任务被添加到这个无界<code>LinkedBlockingQueue</code> 中，导致cpu和内存飙升服务器挂掉。</p>
+<p>当然这种队列，<code>maximumPoolSize</code> 的值也就无效了。当每个任务完全独立于其他任务，即任务执行互不影响时，适合于使用无界队列；例如，在 Web 页服务器中。这种排队可用于处理瞬态突发请求，当命令以超过队列所能处理的平均数连续到达时，此策略允许无界线程具有增长的可能性。</p>
+<p><strong>2、有界队列</strong></p>
+<p>当使用有限的 <code>maximumPoolSizes</code> 时，有界队列有助于防止资源耗尽，但是可能较难调整和控制。常用的有两类，一类是遵循FIFO原则的队列如<code>ArrayBlockingQueue</code>，另一类是优先级队列如<code>PriorityBlockingQueue</code>。<code>PriorityBlockingQueue</code>中的优先级由任务的Comparator决定。</p>
+<p>使用有界队列时队列大小需和线程池大小互相配合，线程池较小有界队列较大时可减少内存消耗，降低cpu使用率和上下文切换，但是可能会限制系统吞吐量。</p>
+<p><strong>3、同步移交队列</strong></p>
+<p>如果不希望任务在队列中等待而是希望将任务直接移交给工作线程，可使用<code>SynchronousQueue</code>作为等待队列。<code>SynchronousQueue</code>不是一个真正的队列，而是一种线程之间移交的机制。要将一个元素放入<code>SynchronousQueue</code>中，必须有另一个线程正在等待接收这个元素。只有在使用无界线程池或者有饱和策略时才建议使用该队列。</p>
+<h2 id="newfixedthreadpool"><a class="markdownIt-Anchor" href="#newfixedthreadpool"></a> newFixedThreadPool</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title function_">newFixedThreadPool</span><span class="params">(<span class="type">int</span> nThreads)</span> &#123;</span><br><span class="line"> 	<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(nThreads, nThreads,</span><br><span class="line"> 								  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line"> 							      <span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>特点</p>
+<ul>
+<li>核心线程数 == 最大线程数（没有救急线程被创建），因此也无需超时时间</li>
+<li>阻塞队列是无界的，可以放任意数量的任务</li>
+</ul>
+<blockquote>
+<p><strong>评价</strong> 适用于任务量已知，相对耗时的任务</p>
+</blockquote>
+<h2 id="newcachedthreadpool"><a class="markdownIt-Anchor" href="#newcachedthreadpool"></a> newCachedThreadPool</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title function_">newCachedThreadPool</span><span class="params">()</span> &#123;</span><br><span class="line"> 	<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line"> 								  <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line"> 								  <span class="keyword">new</span> <span class="title class_">SynchronousQueue</span>&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>特点</strong></p>
+<ul>
+<li>核心线程数是 0， 最大线程数是 Integer.MAX_VALUE，救急线程的空闲生存时间是 60s，意味着
+<ul>
+<li>全部都是救急线程（60s 后可以回收）</li>
+<li>救急线程可以无限创建</li>
+</ul>
+</li>
+<li>队列采用了 SynchronousQueue 实现特点是，它没有容量，没有线程来取是放不进去的（一手交钱、一手交 货）</li>
+</ul>
+<blockquote>
+<p><strong>评价</strong> 整个线程池表现为线程数会根据任务量不断增长，没有上限，当任务执行完毕，空闲 1分钟后释放线 程。 适合任务数比较密集，但每个任务执行时间较短的情况</p>
+</blockquote>
+<h2 id="newsinglethreadexecutor"><a class="markdownIt-Anchor" href="#newsinglethreadexecutor"></a> newSingleThreadExecutor</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title function_">newSingleThreadExecutor</span><span class="params">()</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">FinalizableDelegatedExecutorService</span></span><br><span class="line"> 		(<span class="keyword">new</span> <span class="title class_">ThreadPoolExecutor</span>(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line"> 								<span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line"> 								<span class="keyword">new</span> <span class="title class_">LinkedBlockingQueue</span>&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用场景</strong>： 希望多个任务排队执行。线程数固定为 1，任务数多于 1 时，会放入无界队列排队。任务执行完毕，这唯一的线程 也不会被释放。</p>
+<p><strong>区别</strong>：</p>
+<ul>
+<li>自己创建一个单线程串行执行任务，如果任务执行失败而终止那么没有任何补救措施，而线程池还会新建一 个线程，保证池的正常工作</li>
+<li>Executors.newSingleThreadExecutor() 线程个数始终为1，不能修改
+<ul>
+<li>FinalizableDelegatedExecutorService 应用的是装饰器模式，只对外暴露了 ExecutorService 接口，因 此不能调用 ThreadPoolExecutor 中特有的方法</li>
+</ul>
+</li>
+<li>Executors.newFixedThreadPool(1) 初始时为1，以后还可以修改
+<ul>
+<li>对外暴露的是 ThreadPoolExecutor 对象，可以强转后调用 setCorePoolSize 等方法进行修改</li>
+</ul>
+</li>
+</ul>
+<h2 id="任务提交"><a class="markdownIt-Anchor" href="#任务提交"></a> 任务提交</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 执行任务</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(Runnable command)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交任务 task，用返回值 Future 获得任务执行结果</span></span><br><span class="line">&lt;T&gt; Future&lt;T&gt; <span class="title function_">submit</span><span class="params">(Callable&lt;T&gt; task)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交 tasks 中所有任务</span></span><br><span class="line">&lt;T&gt; List&lt;Future&lt;T&gt;&gt; <span class="title function_">invokeAll</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</span> </span><br><span class="line">    <span class="keyword">throws</span> InterruptedException;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交 tasks 中所有任务，带超时时间</span></span><br><span class="line">&lt;T&gt; List&lt;Future&lt;T&gt;&gt; <span class="title function_">invokeAll</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span></span><br><span class="line"><span class="params"> 							  <span class="type">long</span> timeout, TimeUnit unit)</span></span><br><span class="line"> 				<span class="keyword">throws</span> InterruptedException;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交 tasks 中所有任务，哪个任务先成功执行完毕，返回此任务执行结果，其它任务取消</span></span><br><span class="line">&lt;T&gt; T <span class="title function_">invokeAny</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks)</span></span><br><span class="line"> 	<span class="keyword">throws</span> InterruptedException, ExecutionException;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提交 tasks 中所有任务，哪个任务先成功执行完毕，返回此任务执行结果，其它任务取消，带超时时间</span></span><br><span class="line">&lt;T&gt; T <span class="title function_">invokeAny</span><span class="params">(Collection&lt;? extends Callable&lt;T&gt;&gt; tasks,</span></span><br><span class="line"><span class="params"> 					<span class="type">long</span> timeout, TimeUnit unit)</span></span><br><span class="line"> 			<span class="keyword">throws</span> InterruptedException, ExecutionException, TimeoutException;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="关闭线程池"><a class="markdownIt-Anchor" href="#关闭线程池"></a> 关闭线程池</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">线程池状态变为 SHUTDOWN</span></span><br><span class="line"><span class="comment"> - 不会接收新任务</span></span><br><span class="line"><span class="comment"> - 但已提交任务会执行完</span></span><br><span class="line"><span class="comment"> - 此方法不会阻塞调用线程的执行</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">shutdown</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">线程池状态变为 STOP</span></span><br><span class="line"><span class="comment"> - 不会接收新任务</span></span><br><span class="line"><span class="comment"> - 会将队列中的任务返回</span></span><br><span class="line"><span class="comment"> - 并用 interrupt 的方式中断正在执行的任务</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">List&lt;Runnable&gt; <span class="title function_">shutdownNow</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不在 RUNNING 状态的线程池，此方法就返回 true</span></span><br><span class="line"><span class="type">boolean</span> <span class="title function_">isShutdown</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 线程池状态是否是 TERMINATED</span></span><br><span class="line"><span class="type">boolean</span> <span class="title function_">isTerminated</span><span class="params">()</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用 shutdown 后，由于调用线程并不会等待所有任务运行结束，因此如果它想在线程池 TERMINATED 后做些事情，可以利用此方法等待   </span></span><br><span class="line"><span class="type">boolean</span> <span class="title function_">awaitTermination</span><span class="params">(<span class="type">long</span> timeout, TimeUnit unit)</span> <span class="keyword">throws</span> InterruptedException;</span><br></pre></td></tr></table></figure>
+<h2 id="任务调度线程池"><a class="markdownIt-Anchor" href="#任务调度线程池"></a> 任务调度线程池</h2>
+<p>使用 ScheduledExecutorService</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScheduledExecutorService</span> <span class="variable">executor</span> <span class="operator">=</span> Executors.newScheduledThreadPool(<span class="number">2</span>);</span><br><span class="line"><span class="comment">// 添加两个任务，希望它们都在 1s 后执行</span></span><br><span class="line">executor.schedule(() -&gt; &#123;</span><br><span class="line"> 	System.out.println(<span class="string">&quot;任务1，执行时间：&quot;</span> + <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line"> 	<span class="keyword">try</span> &#123; Thread.sleep(<span class="number">2000</span>); &#125; <span class="keyword">catch</span> (InterruptedException e) &#123; &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>, TimeUnit.MILLISECONDS);</span><br><span class="line">executor.schedule(() -&gt; &#123;</span><br><span class="line"> 	System.out.println(<span class="string">&quot;任务2，执行时间：&quot;</span> + <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br><span class="line">&#125;, <span class="number">1000</span>, TimeUnit.MILLISECONDS);</span><br></pre></td></tr></table></figure>
+<p>scheduleAtFixedRate 循环执行例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScheduledExecutorService</span> <span class="variable">pool</span> <span class="operator">=</span> Executors.newScheduledThreadPool(<span class="number">1</span>);</span><br><span class="line">log.debug(<span class="string">&quot;start...&quot;</span>);</span><br><span class="line">pool.scheduleAtFixedRate(() -&gt; &#123;</span><br><span class="line"> 	log.debug(<span class="string">&quot;running...&quot;</span>);</span><br><span class="line">&#125;, <span class="number">1</span>, <span class="number">1</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<p><img src="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213163448999.png" alt="image-20230213163448999"></p>
+<p>scheduleAtFixedRate 例子（任务执行时间超过了间隔时间）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScheduledExecutorService</span> <span class="variable">pool</span> <span class="operator">=</span> Executors.newScheduledThreadPool(<span class="number">1</span>);</span><br><span class="line">log.debug(<span class="string">&quot;start...&quot;</span>);</span><br><span class="line">pool.scheduleAtFixedRate(() -&gt; &#123;</span><br><span class="line"> 	log.debug(<span class="string">&quot;running...&quot;</span>);</span><br><span class="line"> 	sleep(<span class="number">2</span>);</span><br><span class="line">&#125;, <span class="number">1</span>, <span class="number">1</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<p>输出分析：一开始，延时 1s，接下来，由于任务执行时间 &gt; 间隔时间，间隔被『撑』到了 2s</p>
+<p><img src="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213163530988.png" alt="image-20230213163530988"></p>
+<p>scheduleWithFixedDelay 例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScheduledExecutorService</span> <span class="variable">pool</span> <span class="operator">=</span> Executors.newScheduledThreadPool(<span class="number">1</span>);</span><br><span class="line">log.debug(<span class="string">&quot;start...&quot;</span>);</span><br><span class="line">pool.scheduleWithFixedDelay(()-&gt; &#123;</span><br><span class="line"> 	log.debug(<span class="string">&quot;running...&quot;</span>);</span><br><span class="line"> 	sleep(<span class="number">2</span>);</span><br><span class="line">&#125;, <span class="number">1</span>, <span class="number">1</span>, TimeUnit.SECONDS);</span><br></pre></td></tr></table></figure>
+<p>输出分析：一开始，延时 1s，scheduleWithFixedDelay 的间隔是 上一个任务结束 &lt;-&gt; 延时 &lt;-&gt; 下一个任务开始 所 以间隔都是 3s</p>
+<p><img src="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213163840871.png" alt="image-20230213163840871"></p>
+<blockquote>
+<p><strong>评价</strong> 整个线程池表现为：线程数固定，任务数多于线程数时，会放入无界队列排队。任务执行完毕，这些线 程也不会被释放。用来执行延迟或反复执行的任务</p>
+</blockquote>
+<h2 id="forkjoin"><a class="markdownIt-Anchor" href="#forkjoin"></a> Fork/Join</h2>
+<p>Fork/Join 是 JDK 1.7 加入的新的线程池实现，它体现的是一种分治思想，适用于能够进行任务拆分的 cpu 密集型</p>
+<p>运算 所谓的任务拆分，是将一个大任务拆分为算法上相同的小任务，直至不能拆分可以直接求解。跟递归相关的一些计算，如归并排序、斐波那契数列、都可以用分治思想进行求解</p>
+<p>Fork/Join 在分治的基础上加入了多线程，可以把每个任务的分解和合并交给不同的线程来完成，进一步提升了运算效率</p>
+<p>Fork/Join 默认会创建与 cpu 核心数大小相同的线程池</p>
+<p><strong>使用</strong>：</p>
+<p>提交给 Fork/Join 线程池的任务需要继承 RecursiveTask（有返回值）或 RecursiveAction（没有返回值），例如下 面定义了一个对 1~n 之间的整数求和的任务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf4j(topic = &quot;c.AddTask&quot;)</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AddTask1</span> <span class="keyword">extends</span> <span class="title class_">RecursiveTask</span>&lt;Integer&gt; &#123;</span><br><span class="line"> 	<span class="type">int</span> n;</span><br><span class="line"> 	<span class="keyword">public</span> <span class="title function_">AddTask1</span><span class="params">(<span class="type">int</span> n)</span> &#123;</span><br><span class="line"> 		<span class="built_in">this</span>.n = n;</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line"> 		<span class="keyword">return</span> <span class="string">&quot;&#123;&quot;</span> + n + <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="keyword">protected</span> Integer <span class="title function_">compute</span><span class="params">()</span> &#123;</span><br><span class="line"> 	<span class="comment">// 如果 n 已经为 1，可以求得结果了</span></span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">1</span>) &#123;</span><br><span class="line"> 			log.debug(<span class="string">&quot;join() &#123;&#125;&quot;</span>, n);</span><br><span class="line"> 			<span class="keyword">return</span> n;</span><br><span class="line"> 		&#125;</span><br><span class="line"></span><br><span class="line"> 		<span class="comment">// 将任务进行拆分(fork)</span></span><br><span class="line"> 		<span class="type">AddTask1</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AddTask1</span>(n - <span class="number">1</span>);</span><br><span class="line"> 		t1.fork();</span><br><span class="line"> 		log.debug(<span class="string">&quot;fork() &#123;&#125; + &#123;&#125;&quot;</span>, n, t1);</span><br><span class="line"></span><br><span class="line"> 		<span class="comment">// 合并(join)结果</span></span><br><span class="line"> 		<span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> n + t1.join();</span><br><span class="line"> 		log.debug(<span class="string">&quot;join() &#123;&#125; + &#123;&#125; = &#123;&#125;&quot;</span>, n, t1, result);</span><br><span class="line"> 		<span class="keyword">return</span> result;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>然后提交给 ForkJoinPool 来执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"> 	<span class="type">ForkJoinPool</span> <span class="variable">pool</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ForkJoinPool</span>(<span class="number">4</span>);</span><br><span class="line"> 	System.out.println(pool.invoke(<span class="keyword">new</span> <span class="title class_">AddTask1</span>(<span class="number">5</span>)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<p><img src="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/image-20230213165241399.png" alt="image-20230213165241399"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://cloud-tour.github.io/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/" title="java线程池详解" target="_blank" rel="external">http://cloud-tour.github.io/2023/04/02/java线程池详解/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Cloud-Tour" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar2.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Cloud-Tour" target="_blank"><span class="text-dark">Cloud-Tour</span><small class="ml-1x">Development Engineer &amp; Java</small></a></h3>
+        <div>A man who wants to float on the cloud</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/04/02/AQS%E5%8E%9F%E7%90%86%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/" title="AQS原理流程解析"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/03/11/kafka/" title="Kafka"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">    <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Cloud-Tour" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
