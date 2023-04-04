@@ -66,9 +66,9 @@
     
     <category term="java" scheme="http://cloud-tour.github.io/tags/java/"/>
     
-    <category term="jvm" scheme="http://cloud-tour.github.io/tags/jvm/"/>
-    
     <category term="juc" scheme="http://cloud-tour.github.io/tags/juc/"/>
+    
+    <category term="jvm" scheme="http://cloud-tour.github.io/tags/jvm/"/>
     
     <category term="ssm" scheme="http://cloud-tour.github.io/tags/ssm/"/>
     
