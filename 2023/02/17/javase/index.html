@@ -25,34 +25,34 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1.equals和hashcode的区别 在Java中任何一个对象都具备equals(Object obj)和hashCode()这两个方法，因为他们是在Object类中定义的。 equals(Object obj)方法用来判断两个对象是否“相同”，如果“相同”则返回true，否则返回false。 hashCode()方法返回一个int数，在Object类中的默认实现是“将该对象的内部地址转换成">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2021011517325477.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYWh1YW5f,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/4fdce752e175433da01a0b98108bad7c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6Zi_5paH5LiN5Lya5YaZ5Luj56CB,size_14,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/a8d58114f57742a0b7686de13d05d1f1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6Zi_5paH5LiN5Lya5YaZ5Luj56CB,size_18,color_FFFFFF,t_70,g_se,x_16">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/HrWw6ZuXCsggvBwoTc0Eia361vGz3pkchotZ21QmENJf0ZV23AZLFlwsHYTH4ficmHuYcE9K925FU9Jv1bpKPIWw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/HrWw6ZuXCsggvBwoTc0Eia361vGz3pkchyZOWmqUvgOcwALfAUMA15FH7dyNxrDxd9lM0UabG2AEWrfQ7S11XcQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/1de66e95f974f92ea203bbf930cbd029.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/98effcf44e4be9132f959c65d8b555ad.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/cdb51a08cd77f37075796894f272ffda.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/1e51530a4364d398294996edb07f8349.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/a7453220330b4aa1b4fcced3f839ca15.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/7cc0f781464f4844b0609a975e6bbede.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/198e269a57e24ebe89e7149f96228eda.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/c5e9a0d708a441119b9b43c2dd897057.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/fff26246488d4638a321ab656303a216.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/c7048a60065248c9988386df94e651c3.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/4e6d3c22855748bfa78d93e17a46762e.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/eec3c06422d342a1a2e8c30c3b2e60fb.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/1b89cf537a1b408f8683a90f7e8b0c85.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/4ae385034213403fa74f5374b226e505.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/c01e11f8061e462baccad1404c82e8d7.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/033c99659a5349f6bfc9f8afb83709b1.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/0b96a31afd174dceaf295d826cbaa787.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406172947233.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173037693.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173048904.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173105983.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173112557.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173122348.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173143746.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173155292.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173205323.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173326661.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173356533.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173404344.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173416188.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173428455.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173437114.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173443142.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173449490.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173457167.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173505430.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173512991.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173519522.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406173526653.png">
 <meta property="article:published_time" content="2023-02-17T12:58:55.387Z">
-<meta property="article:modified_time" content="2023-02-17T13:01:44.155Z">
+<meta property="article:modified_time" content="2023-04-06T09:35:30.403Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2021011517325477.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYWh1YW5f,size_16,color_FFFFFF,t_70">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/02/17/javase/image-20230406172947233.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://cloud-tour.github.io/2023/02/17/javase/index.html">
   
@@ -444,7 +444,7 @@
 <p><strong>什么是二叉平衡树呢？</strong><br>
 1.具有二叉查找树的全部特性。</p>
 <p>2.每个节点的左子树和右子树的高度差至多为1。<br>
-<img src="https://img-blog.csdnimg.cn/2021011517325477.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYWh1YW5f,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="/2023/02/17/javase/image-20230406172947233.png" alt="image-20230406172947233"><br>
 平衡树基于这种特点就可以保证不会出现大量节点偏向于一边的情况了!（插入或者删除时，会发生左旋、右旋操作，使这棵树再次左右保持一定的平衡)</p>
 </li>
 </ol>
@@ -478,8 +478,8 @@
 </li>
 </ul>
 <h1 id="3java异常体系"><a class="markdownIt-Anchor" href="#3java异常体系"></a> 3.java异常体系</h1>
-<p><img src="https://img-blog.csdnimg.cn/4fdce752e175433da01a0b98108bad7c.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6Zi_5paH5LiN5Lya5YaZ5Luj56CB,size_14,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
-<p><img src="https://img-blog.csdnimg.cn/a8d58114f57742a0b7686de13d05d1f1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6Zi_5paH5LiN5Lya5YaZ5Luj56CB,size_18,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173037693.png" alt="image-20230406173037693"></p>
+<p><img src="/2023/02/17/javase/image-20230406173048904.png" alt="image-20230406173048904"></p>
 <p><strong>java异常体系</strong></p>
 <ul>
 <li>
@@ -660,7 +660,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">QuartzJob</span> <span class="keyword">implements</span> <span class="title class_">Job</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">execute</span><span class="params">(JobExecutionContext jobExecutionContext)</span> &#123;</span><br><span class="line">        <span class="comment">// 输出当前时间</span></span><br><span class="line">        System.out.println(LocalDateTime.now());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="10java中有哪些队列"><a class="markdownIt-Anchor" href="#10java中有哪些队列"></a> 10.java中有哪些队列</h1>
 <p>Java 中的队列可以从不同的维度进行分类，例如可以从阻塞和非阻塞进行分类，也可以从有界和无界进行分类，而这里将从队列的功能上进行分类，例如：优先队列、普通队列、双端队列、延迟队列等。</p>
-<img src="https://mmbiz.qpic.cn/mmbiz_png/HrWw6ZuXCsggvBwoTc0Eia361vGz3pkchotZ21QmENJf0ZV23AZLFlwsHYTH4ficmHuYcE9K925FU9Jv1bpKPIWw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片" style="zoom:50%;">
+<p><img src="/2023/02/17/javase/image-20230406173105983.png" alt="image-20230406173105983"></p>
 <ul>
 <li>
 <p><strong>普通队列</strong></p>
@@ -682,7 +682,7 @@
 </li>
 <li>
 <p>优先队列是根据二叉堆实现的，二叉堆的数据结构如下图所示：</p>
-<img src="https://mmbiz.qpic.cn/mmbiz_png/HrWw6ZuXCsggvBwoTc0Eia361vGz3pkchyZOWmqUvgOcwALfAUMA15FH7dyNxrDxd9lM0UabG2AEWrfQ7S11XcQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片" style="zoom:50%;">
+<p><img src="/2023/02/17/javase/image-20230406173112557.png" alt="image-20230406173112557"></p>
 <p>二叉堆分为两种类型：一种是最大堆一种是最小堆。以上展示的是最大堆，<strong>在最大堆中，任意一个父节点的值都大于等于它左右子节点的值。</strong></p>
 <blockquote>
 <p>因为优先队列是基于二叉堆实现的，因此它可以将优先级最好的元素先出队。</p>
@@ -715,20 +715,20 @@
 <h2 id="二阶段提交"><a class="markdownIt-Anchor" href="#二阶段提交"></a> 二阶段提交</h2>
 <p>2PC，两阶段提交，将事务的提交过程分为资源准备和资源提交两个阶段，并且由事务协调者来协调所有事务参与者，如果准备阶段所有事务参与者都预留资源成功，则进行第二阶段的资源提交，否则事务协调者回滚资源。</p>
 <p>第一阶段：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/1de66e95f974f92ea203bbf930cbd029.png" alt="img"></p>
+<img src="/2023/02/17/javase/image-20230406173122348.png" alt="image-20230406173122348" style="zoom: 67%;">
 <p>在XA分布式事务的第一阶段，作为事务协调者的节点会首先向所有的参与者节点发送Prepare请求。</p>
 <p>在接到Prepare请求之后，每一个参与者节点会各自执行与事务有关的数据更新，写入Undo Log和Redo Log。如果参与者执行成功，暂时不提交事务，而是向事务协调节点返回“完成”消息。</p>
 <p>当事务协调者接到了所有参与者的返回消息，整个分布式事务将会进入第二阶段。</p>
 <p>第二阶段：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/98effcf44e4be9132f959c65d8b555ad.png" alt="img"></p>
+<img src="/2023/02/17/javase/image-20230406173143746.png" alt="image-20230406173143746" style="zoom:67%;">
 <p>在XA分布式事务的第二阶段，如果事务协调节点在之前所收到都是正向返回，那么它将会向所有事务参与者发出Commit请求。</p>
 <p>接到Commit请求之后，事务参与者节点会各自进行本地的事务提交，并释放锁资源。当本地事务完成提交后，将会向事务协调者返回“完成”消息。</p>
 <p>当事务协调者接收到所有事务参与者的“完成”反馈，整个分布式事务完成。</p>
 <p>以上所描述的是XA两阶段提交的正向流程，接下来我们看一看失败情况的处理流程：</p>
 <p>第一阶段：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/cdb51a08cd77f37075796894f272ffda.png" alt="img"></p>
+<img src="/2023/02/17/javase/image-20230406173155292.png" alt="image-20230406173155292" style="zoom:67%;">
 <p>第二阶段：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/1e51530a4364d398294996edb07f8349.png" alt="img"></p>
+<img src="/2023/02/17/javase/image-20230406173205323.png" alt="image-20230406173205323" style="zoom:67%;">
 <p>在XA的第一阶段，如果某个事务参与者反馈失败消息，说明该节点的本地事务执行不成功，必须回滚。</p>
 <p>于是在第二阶段，事务协调节点向所有的事务参与者发送Abort请求。接收到Abort请求之后，各个事务参与者节点需要在本地进行事务的回滚操作，回滚操作依照Undo Log来进行。</p>
 <p><strong>两阶段提交的不足</strong></p>
@@ -763,7 +763,7 @@
 <p>（1）在协调者和参与者中都引入超时机制<br>
 （2）在第一阶段和第二阶段中插入一个准备阶段，保证了在最后提交阶段之前各参与节点的状态是一致的。<br>
 所以3PC会分为3个阶段，CanCommit 准备阶段、PreCommit 预提交阶段、DoCommit 提交阶段，处理流程如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/a7453220330b4aa1b4fcced3f839ca15.png" alt="img"></p>
+<img src="/2023/02/17/javase/image-20230406173326661.png" alt="image-20230406173326661">
 <p><strong>1、阶段一：CanCommit 准备阶段</strong></p>
 <p>​        协调者向参与者发送 canCommit 请求，参与者如果可以提交就返回Yes响应，否则返回No响应，具体流程如下：</p>
 <ul>
@@ -783,14 +783,14 @@
 <li>② 事务预提交 ：参与者接收到 PreCommit 请求后，会执行本地事务操作，并将 undo 和 redo 信息记录到事务日志中（但不提交事务）</li>
 <li>③ 响应反馈 ：如果参与者成功的执行了事务操作，则返回ACK响应，同时开始等待最终指令。</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/7cc0f781464f4844b0609a975e6bbede.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173356533.png" alt="image-20230406173356533"></p>
 <p><strong>（2）中断事务：</strong></p>
 <p>假如有任何一个参与者向协调者发送了No响应，或者等待超时之后，协调者都没有接到参与者的响应，那么就执行事务的中断，流程如下：</p>
 <ul>
 <li>① 发送中断请求 ：协调者向所有参与者发送 abort 请求。</li>
 <li>② 中断事务 ：参与者收到来自协调者的 abort 请求之后（或超时之后，仍未收到协调者的请求），执行事务的中断。</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/198e269a57e24ebe89e7149f96228eda.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173404344.png" alt="image-20230406173404344"></p>
 <p><strong>3、阶段三：doCommit阶段</strong></p>
 <p>该阶段进行真正的事务提交，也可以分为以下两种情况：</p>
 <p><strong>（1）提交事务：</strong></p>
@@ -800,7 +800,7 @@
 <li>③ 响应反馈：事务提交完之后，向协调者发送ack响应。</li>
 <li>④ 完成事务：协调者接收到所有参与者的ack响应之后，完成事务。</li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/c5e9a0d708a441119b9b43c2dd897057.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173416188.png" alt="image-20230406173416188"></p>
 <p><strong>（2）中断事务：</strong></p>
 <p>任何一个参与者反馈 no，或者等待超时后协调者尚无法收到所有参与者的反馈，即中断事务</p>
 <ul>
@@ -840,7 +840,7 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 </ul>
 </li>
 </ul>
-<p><img src="https://img-blog.csdnimg.cn/fff26246488d4638a321ab656303a216.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173428455.png" alt="image-20230406173428455"></p>
 <p><strong>3、TCC如何保证最终一致性</strong>：</p>
 <ul>
 <li>TCC 事务机制以 Try 为中心的，Confirm 确认操作和 Cancel 取消操作都是围绕 Try 而展开。因此，Try 阶段中的操作，其保障性是最好的，即使失败，仍然有 Cancel 取消操作可以将其执行结果撤销。</li>
@@ -893,12 +893,12 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 <p>对于事务异常，Saga提供了两种恢复策略，分别如下：</p>
 <p><strong>（1）向后恢复(backward recovery)</strong>：</p>
 <p>当执行事务失败时，补偿所有已完成的事务，是“一退到底”的方式，这种做法的效果是撤销掉之前所有成功的子事务，使得整个 Saga 的执行结果撤销。如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/c7048a60065248c9988386df94e651c3.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173437114.png" alt="image-20230406173437114"></p>
 <pre><code>     从上图可知事务执行到了支付事务T3，但是失败了，因此事务回滚需要从C3,C2,C1依次进行回滚补偿，对应的执行顺序为：T1,T2,T3,C3,C2,C1。
 </code></pre>
 <p><strong>（2）向前恢复(forward recovery)</strong>：</p>
 <p>​    对于执行不通过的事务，会尝试重试事务，这里有一个假设就是每个子事务最终都会成功，这种方式适用于必须要成功的场景，事务失败了重试，不需要补偿。流程如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/4e6d3c22855748bfa78d93e17a46762e.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173443142.png" alt="image-20230406173443142"></p>
 <p><strong>3、Saga事务的实现方式</strong>：</p>
 <p>Saga事务有两种不同的实现方式，分别如下：</p>
 <ul>
@@ -907,7 +907,7 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 </ul>
 <p><strong>（1）命令协调</strong>：</p>
 <p>​    中央协调器（Orchestrator，简称 OSO）以命令/回复的方式与每项服务进行通信，全权负责告诉每个参与者该做什么以及什么时候该做什么。整体流程如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/eec3c06422d342a1a2e8c30c3b2e60fb.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173449490.png" alt="image-20230406173449490"></p>
 <ul>
 <li>① 事务发起方的主业务逻辑请求 OSO 服务开启订单事务</li>
 <li>② OSO 向库存服务请求扣减库存，库存服务回复处理结果。</li>
@@ -919,7 +919,7 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 <p><strong>（2）事件编排</strong>：</p>
 <p>​    命令协调方式基于中央协调器实现，所以有单点风险，但是事件编排方式没有中央协调器。事件编排的实现方式中，每个服务产生自己的时间并监听其他服务的事件来决定是否应采取行动。</p>
 <p>​    在事件编排方法中，第一个服务执行一个事务，然后发布一个事件，该事件被一个或多个服务进行监听，这些服务再执行本地事务并发布（或不发布）新的事件。当最后一个服务执行本地事务并且不发布任何事件时，意味着分布式事务结束，或者它发布的事件没有被任何 Saga 参与者听到都意味着事务结束。</p>
-<p><img src="https://img-blog.csdnimg.cn/1b89cf537a1b408f8683a90f7e8b0c85.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173457167.png" alt="image-20230406173457167"></p>
 <ul>
 <li>
 <p>① 事务发起方的主业务逻辑发布开始订单事件。</p>
@@ -972,7 +972,7 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 <li>业务处理失败、事务消息发送成功</li>
 </ul>
 <p><strong>2、本地消息表的执行流程</strong>：</p>
-<p><img src="https://img-blog.csdnimg.cn/4ae385034213403fa74f5374b226e505.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173505430.png" alt="image-20230406173505430"></p>
 <ul>
 <li>① 事务主动方在同一个本地事务中处理业务和写消息表操作</li>
 <li>② 事务主动方通过消息中间件，通知事务被动方处理事务消息。消息中间件可以基于 Kafka、RocketMQ 消息队列，事务主动方主动写消息到消息队列，事务消费方消费并处理消息队列中的消息。</li>
@@ -1001,11 +1001,11 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 <p>##　MQ事务消息</p>
 <p>1、MQ事务消息的执行流程：</p>
 <p>​        基于MQ的分布式事务方案本质上是对本地消息表的封装，整体流程与本地消息表一致，唯一不同的就是将本地消息表存在了MQ内部，而不是业务数据库中，如下图：</p>
-<p><img src="https://img-blog.csdnimg.cn/c01e11f8061e462baccad1404c82e8d7.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173512991.png" alt="image-20230406173512991"></p>
 <p>​     由于将本地消息表存在了MQ内部，那么MQ内部的处理尤为重要，下面主要基于 RocketMQ4.3 之后的版本介绍 MQ 的分布式事务方案</p>
 <p><strong>2、RocketMQ事务消息</strong>：</p>
 <p>​        在本地消息表方案中，保证事务主动方发写业务表数据和写消息表数据的一致性是基于数据库事务，而 RocketMQ 的事务消息相对于普通 MQ提供了 2PC 的提交接口，方案如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/033c99659a5349f6bfc9f8afb83709b1.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173519522.png" alt="image-20230406173519522"></p>
 <p><strong>（1）正常情况</strong>：</p>
 <p>在事务主动方服务正常，没有发生故障的情况下，发消息流程如下：</p>
 <ul>
@@ -1036,7 +1036,7 @@ TCC（Try Confirm Cancel）是应用层的两阶段提交，所以对代码的�
 </ul>
 <h2 id="最大努力通知"><a class="markdownIt-Anchor" href="#最大努力通知"></a> 最大努力通知</h2>
 <p>最大努力通知也称为定期校对，是对MQ事务方案的进一步优化。它在事务主动方增加了消息校对的接口，如果事务被动方没有接收到主动方发送的消息，此时可以调用事务主动方提供的消息校对的接口主动获取</p>
-<p><img src="https://img-blog.csdnimg.cn/0b96a31afd174dceaf295d826cbaa787.png" alt="img"></p>
+<p><img src="/2023/02/17/javase/image-20230406173526653.png" alt="image-20230406173526653"></p>
 <p>​     在可靠消息事务中，事务主动方需要将消息发送出去，并且让接收方成功接收消息，这种可靠性发送是由事务主动方保证的；但是最大努力通知，事务主动方仅仅是尽最大努力（重试，轮询…）将事务发送给事务接收方，所以存在事务被动方接收不到消息的情况，此时需要事务被动方主动调用事务主动方的消息校对接口查询业务消息并消费，这种通知的可靠性是由事务被动方保证的。</p>
 <p>​    所以最大努力通知适用于业务通知类型，例如微信交易的结果，就是通过最大努力通知方式通知各个商户，既有回调通知，也有交易查询接口。</p>
 <h2 id="各方案常见使用场景"><a class="markdownIt-Anchor" href="#各方案常见使用场景"></a> 各方案常见使用场景</h2>
