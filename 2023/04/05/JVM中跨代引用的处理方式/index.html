@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>JVM跨代引用问题的处理方式 | Hexo</title>
+  <meta name="description" content="JVM跨代引用问题的处理方式 跨代引用  场景： 年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 特点： 互相引用的两个对象几乎总是同生共死： 如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。 因此，存在跨代引用的对象较少。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM跨代引用问题的处理方式">
+<meta property="og:url" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="JVM跨代引用问题的处理方式 跨代引用  场景： 年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 特点： 互相引用的两个对象几乎总是同生共死： 如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。 因此，存在跨代引用的对象较少。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png">
+<meta property="article:published_time" content="2023-04-05T06:14:22.940Z">
+<meta property="article:modified_time" content="2023-04-06T09:12:18.285Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="跨代引用">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/Cloud-Tour" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar2.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Cloud-Tour</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Development Engineer &amp; Java</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> MaoMing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Cloud-Tour" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/">51单片机</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javase/">javase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafka/">kafka</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AQS/" rel="tag">AQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/" rel="tag">Lock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Synchronized/" rel="tag">Synchronized</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debian/" rel="tag">debian</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java11/" rel="tag">java11</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/juc/" rel="tag">juc</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keil/" rel="tag">keil</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proteus/" rel="tag">proteus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssb/" rel="tag">ssb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssm/" rel="tag">ssm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86%E6%8A%A2%E5%8D%A0/" rel="tag">堆抢占</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/" rel="tag">跨代引用</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/AQS/" style="font-size: 13px;">AQS</a> <a href="/tags/Lock/" style="font-size: 13px;">Lock</a> <a href="/tags/ReentrantLock/" style="font-size: 13px;">ReentrantLock</a> <a href="/tags/Synchronized/" style="font-size: 13px;">Synchronized</a> <a href="/tags/debian/" style="font-size: 13.5px;">debian</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/java11/" style="font-size: 13px;">java11</a> <a href="/tags/juc/" style="font-size: 13.5px;">juc</a> <a href="/tags/jvm/" style="font-size: 13.5px;">jvm</a> <a href="/tags/kafka/" style="font-size: 13px;">kafka</a> <a href="/tags/keil/" style="font-size: 13px;">keil</a> <a href="/tags/mysql/" style="font-size: 13px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/proteus/" style="font-size: 13px;">proteus</a> <a href="/tags/redis/" style="font-size: 13px;">redis</a> <a href="/tags/ssb/" style="font-size: 13px;">ssb</a> <a href="/tags/ssm/" style="font-size: 13px;">ssm</a> <a href="/tags/%E5%A0%86%E6%8A%A2%E5%8D%A0/" style="font-size: 13px;">堆抢占</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" style="font-size: 13px;">线程池</a> <a href="/tags/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/" style="font-size: 13px;">跨代引用</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a><span class="archive-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/jvm/">jvm</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/05/new%E5%AF%B9%E8%B1%A1%E6%97%B6%E5%A0%86%E6%8A%A2%E5%8D%A0%E9%97%AE%E9%A2%98/" class="title">new对象时的堆抢占问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-05T06:29:33.616Z" itemprop="datePublished">2023-04-05</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/jvm/">jvm</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/" class="title">JVM跨代引用问题的处理方式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-05T06:14:22.940Z" itemprop="datePublished">2023-04-05</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/juc/">juc</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/02/AQS%E5%8E%9F%E7%90%86%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/" class="title">AQS原理流程解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-02T14:30:07.396Z" itemprop="datePublished">2023-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/juc/">juc</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/02/ReentrantLock%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E8%A7%A3%E6%9E%90/" class="title">ReentrantLock底层实现解析</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-02T12:08:51.583Z" itemprop="datePublished">2023-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/juc/">juc</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/02/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E8%AF%A6%E8%A7%A3/" class="title">java线程池详解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-02T11:55:50.087Z" itemprop="datePublished">2023-04-02</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+  <aside class="sidebar sidebar-toc collapse   in  " id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">Catalogue</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jvm%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text"> JVM跨代引用问题的处理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%A1%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> 卡表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E9%9B%86%E5%90%88"><span class="toc-number">1.2.</span> <span class="toc-text"> 记忆集合</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-JVM中跨代引用的处理方式" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JVM跨代引用问题的处理方式
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/" class="article-date">
+	  <time datetime="2023-04-05T06:14:22.940Z" itemprop="datePublished">2023-04-05</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/jvm/">jvm</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link-link" href="/tags/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/" rel="tag">跨代引用</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="jvm跨代引用问题的处理方式"><a class="markdownIt-Anchor" href="#jvm跨代引用问题的处理方式"></a> JVM跨代引用问题的处理方式</h1>
+<p><strong>跨代引用</strong></p>
+<ul>
+<li><strong>场景：</strong><br>
+年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用</li>
+<li><strong>特点：</strong><br>
+互相引用的两个对象几乎总是同生共死：<br>
+如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。<br>
+因此，存在跨代引用的对象较少。</li>
+<li><strong>跨代引用带来的问题：</strong><br>
+年轻代对象引用老年代对象：minor gc时需要扫描老年代。<br>
+老年代对象引用年轻代对象：major gc时需要扫描年轻代。</li>
+<li><strong>解决方案：</strong><br>
+通过降低扫描对象的范围或数量来降低gc的耗时：
+<ul>
+<li>年轻代对象引用老年代对象：借助 卡表/记忆集合来减小minor gc时扫描老年代的范围，进而降低minor gc的时间。</li>
+<li>老年代对象引用年轻代对象：
+<ul>
+<li>CMS收集器：借助<strong>提前触发minor gc</strong> 来减少年轻代中对象的数量，进而降低major gc的时间。</li>
+<li>G1收集器：借助<strong>记忆集合</strong>来减少老年代gc时扫描年轻代的范围，进而降低minor gc的时间。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="卡表"><a class="markdownIt-Anchor" href="#卡表"></a> 卡表</h2>
+<ul>
+<li>
+<p><strong>数据结构：</strong></p>
+<ul>
+<li>**卡表：**jvm将老年代划分为若干个大小为512字节的区域(card)，并使用一个 <strong>字节(byte)数组</strong> 来标记老年代中这些区域(card)中的对象是否持有新生代对象的引用。jvm将这个 字节数组 称为卡表(card table)。</li>
+<li><strong>卡表中的元素</strong>：表示老年代中某块区域(card)中的对象是否持有新生代对象的引用。</li>
+<li><strong>卡表</strong>属于points-out(我引用了谁的对象)的结构。</li>
+</ul>
+<blockquote>
+<p>说明：之所以使用byte数组而不是bit数组主要是速度上的考量，现代计算机硬件都是最小按字节寻址的，没有直接存储一个bit指令，所以要用bit的话就不得不多消耗几条shift+mask指令。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>原理：</strong></p>
+<ul>
+<li>当老年代中的某个对象持有了新生代对象的引用时，jvm将卡表中表示该对象所在区域(card)的元素设为1，表示该对象所在区域(card)是一个 dirty card。（注意：新生代对象引用老年代对象时，老年代对象所在的区域(card)不会被标记为dirty card）。</li>
+<li>年轻代gc时只扫描dirty card中的对象，而无需扫描整个老年代中的对象，从而减少年轻代gc的停顿时间。</li>
+<li>当完成所有脏卡的扫描之后，jvm便会将所有脏卡的标识位清零。</li>
+</ul>
+</li>
+<li>
+<p><strong>card标记为dirty card的原理</strong></p>
+<ul>
+<li><strong>写屏障：</strong>
+<ul>
+<li>写屏障是一小段将card标记为dirty card的代码：检查对象的引用变更时是否出现了跨代引用(g1是跨region引用)，如果出现，这将对应的card标记为dirty card。</li>
+</ul>
+</li>
+<li><strong>Hotspot VM的字节码解释器和JIT编译器使用写屏障维护卡表：</strong>
+<ul>
+<li>解释器每次执行更新引用的字节码时，都会执行一段写屏障。</li>
+<li>JIT编译器在生成更新引用的代码后，也会生成一段写屏障。</li>
+<li>虽然写屏障使得应用线程增加了一些性能开销，但是minor gc的效率提高了很多，进而提高了系统的吞吐量。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="记忆集合"><a class="markdownIt-Anchor" href="#记忆集合"></a> 记忆集合</h2>
+<ul>
+<li>
+<p><strong>数据结构:</strong></p>
+<ul>
+<li>
+<p>每个region都维护着一个记忆集合(Remembered Set / Rset)，收集器在标记跨代引用的对象时只需扫描(CSet中region维护的)RSet即可。</p>
+</li>
+<li>
+<p>RSet的整体结构是一个哈希表，底层是在卡表的基础上实现的。</p>
+<ul>
+<li>key：key记录了<strong>引用本region中对象的对象</strong>所在region的<strong>位置</strong>。</li>
+<li>value：是一个集合，其元素是：其它region(由key确定是哪个region)中的<strong>对象引用本region中对象的引用</strong>及<strong>引用所在的卡表位置</strong>。</li>
+</ul>
+</li>
+<li>
+<p>Rset属于points-into结构(谁引用了我的对象)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>RSet、Card和Region的关系</strong></p>
+<ul>
+<li>每个region被分成了多个card。</li>
+<li>不同region中的card会相互引用。</li>
+<li>图示：<img src="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png" alt="Remembered Sets"></li>
+</ul>
+</li>
+</ul>
+<p>Region1中的Card中的对象引用了Region2中的Card中的对象，蓝色实线表示的就是points-out的关系，而在Region2的RSet中，记录了Region1的Card，即红色虚线表示的关系，这就是points-into。</p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/" title="JVM跨代引用问题的处理方式" target="_blank" rel="external">http://cloud-tour.github.io/2023/04/05/JVM中跨代引用的处理方式/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/Cloud-Tour" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar2.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/Cloud-Tour" target="_blank"><span class="text-dark">Cloud-Tour</span><small class="ml-1x">Development Engineer &amp; Java</small></a></h3>
+        <div>A man who wants to float on the cloud</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2023/04/05/new%E5%AF%B9%E8%B1%A1%E6%97%B6%E5%A0%86%E6%8A%A2%E5%8D%A0%E9%97%AE%E9%A2%98/" title="new对象时的堆抢占问题"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2023/04/02/AQS%E5%8E%9F%E7%90%86%E6%B5%81%E7%A8%8B%E8%A7%A3%E6%9E%90/" title="AQS原理流程解析"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn " data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="Catalogue" role="button">    <span>[&nbsp;</span><span>Catalogue</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>$</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>Maybe you could buy me a cup of coffee.</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open alipay app scan this qrcode, buy me a coffee!</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="Scan Qrcode" title="Scan" />
+              </div>
+              <p class="text-muted mv">Scan this qrcode</p>
+              <p class="text-grey">Open wechat app scan this qrcode, buy me a coffee!</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> alipay</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> wechat payment</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/Cloud-Tour" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

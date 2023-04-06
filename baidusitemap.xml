@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://Cloud-Tour.github.io/2023/02/17/mysql/</loc>
+    <lastmod>2023-04-06</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2023/03/11/kafka/</loc>
+    <lastmod>2023-04-06</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2023/04/05/new%E5%AF%B9%E8%B1%A1%E6%97%B6%E5%A0%86%E6%8A%A2%E5%8D%A0%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2023-04-06</lastmod>
+  </url>
+  <url>
+    <loc>http://Cloud-Tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/</loc>
+    <lastmod>2023-04-06</lastmod>
+  </url>
+  <url>
     <loc>http://Cloud-Tour.github.io/2023/03/30/synchronized%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/</loc>
     <lastmod>2023-04-05</lastmod>
   </url>
@@ -25,19 +41,11 @@
     <lastmod>2023-03-18</lastmod>
   </url>
   <url>
-    <loc>http://Cloud-Tour.github.io/2023/03/11/kafka/</loc>
-    <lastmod>2023-03-11</lastmod>
-  </url>
-  <url>
     <loc>http://Cloud-Tour.github.io/2023/03/07/%E5%9F%BA%E7%A1%80/</loc>
     <lastmod>2023-03-07</lastmod>
   </url>
   <url>
     <loc>http://Cloud-Tour.github.io/2023/02/17/redis/</loc>
-    <lastmod>2023-02-17</lastmod>
-  </url>
-  <url>
-    <loc>http://Cloud-Tour.github.io/2023/02/17/mysql/</loc>
     <lastmod>2023-02-17</lastmod>
   </url>
   <url>

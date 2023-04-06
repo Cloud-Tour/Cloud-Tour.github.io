@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1.sql的执行流程  执行流程：   1、在打开客户端后，最初需要和sql服务器建立连接，账号认证和校验权限。   2、认证后，客户端发生查询sql脚本给服务器   3、服务器先检查查询缓存，如果命中了缓存，则立刻返回存储在缓存中的结果。否则进入下一阶段。   4、服务器端进行SQL解析、预处理，再由优化器生成对应的执行计划。   5、MySQL根据优化器生成的执行计划，再调用存储引擎的API">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/f5e93d9217484c438a7d7295b2e15d7d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5riF6aOO5ZKM5pyI5piO,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171454923.png">
 <meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230112170133211.png">
 <meta property="og:image" content="https://pic3.zhimg.com/80/v2-3f061ac8f9efb6e1652f094a5983ddaa_720w.webp">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-6daba443c0b19c9956612fc3816dbd01_720w.webp">
@@ -38,22 +38,22 @@
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-575acc29a4e0312db70a515ab71d6d90_720w.webp">
 <meta property="og:image" content="https://pic3.zhimg.com/80/v2-eb81b65c29711b609e2076af48c17146_720w.webp">
 <meta property="og:image" content="https://pic1.zhimg.com/80/v2-0d05a58b7f1f1856894985e015db49c0_720w.webp">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/0aebe392a7c9bc354ec5e54d88d169ce.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/aa17d7a50a6cba976e7cf31d8bb378c7.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/5dc902bed1264510df70a27f09ca315d.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171528118.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171541636.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171553358.png">
 <meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230112211207768.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/2NF.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/3NF.png">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/007S8ZIlly1gjjfy33yx2j30fm05zwg9.jpg">
-<meta property="og:image" content="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/007S8ZIlly1gjjfy5yoatj30cy09l776.jpg">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171606612.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171622411.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171632382.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171652107.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171710099.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171718313.png">
 <meta property="article:published_time" content="2023-02-17T13:21:00.159Z">
-<meta property="article:modified_time" content="2023-02-17T13:22:31.373Z">
+<meta property="article:modified_time" content="2023-04-06T09:17:21.375Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/f5e93d9217484c438a7d7295b2e15d7d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5riF6aOO5ZKM5pyI5piO,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/02/17/mysql/image-20230406171454923.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://cloud-tour.github.io/2023/02/17/mysql/index.html">
   
@@ -235,7 +235,7 @@
   <div class="widget">
     <h3 class="widget-title">Categories</h3>
     <div class="widget-body">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/">51单片机</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javase/">javase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafka/">kafka</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/">51单片机</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/javase/">javase</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/juc/">juc</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/jvm/">jvm</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/kafka/">kafka</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/redis/">redis</a><span class="category-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -245,7 +245,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AQS/" rel="tag">AQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/" rel="tag">Lock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Synchronized/" rel="tag">Synchronized</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debian/" rel="tag">debian</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java11/" rel="tag">java11</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/juc/" rel="tag">juc</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keil/" rel="tag">keil</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proteus/" rel="tag">proteus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssb/" rel="tag">ssb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssm/" rel="tag">ssm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AQS/" rel="tag">AQS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lock/" rel="tag">Lock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ReentrantLock/" rel="tag">ReentrantLock</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Synchronized/" rel="tag">Synchronized</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/debian/" rel="tag">debian</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java11/" rel="tag">java11</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/juc/" rel="tag">juc</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jvm/" rel="tag">jvm</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/" rel="tag">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keil/" rel="tag">keil</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/proteus/" rel="tag">proteus</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssb/" rel="tag">ssb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssm/" rel="tag">ssm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%A0%86%E6%8A%A2%E5%8D%A0/" rel="tag">堆抢占</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" rel="tag">线程池</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/" rel="tag">跨代引用</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -255,7 +255,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/AQS/" style="font-size: 13px;">AQS</a> <a href="/tags/Lock/" style="font-size: 13px;">Lock</a> <a href="/tags/ReentrantLock/" style="font-size: 13px;">ReentrantLock</a> <a href="/tags/Synchronized/" style="font-size: 13px;">Synchronized</a> <a href="/tags/debian/" style="font-size: 13.5px;">debian</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/java11/" style="font-size: 13px;">java11</a> <a href="/tags/juc/" style="font-size: 13.5px;">juc</a> <a href="/tags/jvm/" style="font-size: 13.5px;">jvm</a> <a href="/tags/kafka/" style="font-size: 13px;">kafka</a> <a href="/tags/keil/" style="font-size: 13px;">keil</a> <a href="/tags/mysql/" style="font-size: 13px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/proteus/" style="font-size: 13px;">proteus</a> <a href="/tags/redis/" style="font-size: 13px;">redis</a> <a href="/tags/ssb/" style="font-size: 13px;">ssb</a> <a href="/tags/ssm/" style="font-size: 13px;">ssm</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" style="font-size: 13px;">线程池</a>
+      <a href="/tags/AQS/" style="font-size: 13px;">AQS</a> <a href="/tags/Lock/" style="font-size: 13px;">Lock</a> <a href="/tags/ReentrantLock/" style="font-size: 13px;">ReentrantLock</a> <a href="/tags/Synchronized/" style="font-size: 13px;">Synchronized</a> <a href="/tags/debian/" style="font-size: 13.5px;">debian</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/java11/" style="font-size: 13px;">java11</a> <a href="/tags/juc/" style="font-size: 13.5px;">juc</a> <a href="/tags/jvm/" style="font-size: 13.5px;">jvm</a> <a href="/tags/kafka/" style="font-size: 13px;">kafka</a> <a href="/tags/keil/" style="font-size: 13px;">keil</a> <a href="/tags/mysql/" style="font-size: 13px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/proteus/" style="font-size: 13px;">proteus</a> <a href="/tags/redis/" style="font-size: 13px;">redis</a> <a href="/tags/ssb/" style="font-size: 13px;">ssb</a> <a href="/tags/ssm/" style="font-size: 13px;">ssm</a> <a href="/tags/%E5%A0%86%E6%8A%A2%E5%8D%A0/" style="font-size: 13px;">堆抢占</a> <a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" style="font-size: 13px;">线程池</a> <a href="/tags/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/" style="font-size: 13px;">跨代引用</a>
     </div>
   </div>
 
@@ -264,7 +264,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/04/">April 2023</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/03/">March 2023</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/10/">October 2022</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -276,6 +276,36 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/jvm/">jvm</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/05/new%E5%AF%B9%E8%B1%A1%E6%97%B6%E5%A0%86%E6%8A%A2%E5%8D%A0%E9%97%AE%E9%A2%98/" class="title">new对象时的堆抢占问题</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-05T06:29:33.616Z" itemprop="datePublished">2023-04-05</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/jvm/">jvm</a>
+              </p>
+              <p class="item-title">
+                <a href="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/" class="title">JVM跨代引用问题的处理方式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2023-04-05T06:14:22.940Z" itemprop="datePublished">2023-04-05</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -317,36 +347,6 @@
               </p>
               <p class="item-date">
                 <time datetime="2023-04-02T11:55:50.087Z" itemprop="datePublished">2023-04-02</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/juc/">juc</a>
-              </p>
-              <p class="item-title">
-                <a href="/2023/03/30/synchronized%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90/" class="title">Synchronized原理解析</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2023-03-30T14:25:53.826Z" itemprop="datePublished">2023-03-30</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                <a class="category-link" href="/categories/kafka/">kafka</a>
-              </p>
-              <p class="item-title">
-                <a href="/2023/03/11/kafka/" class="title">Kafka</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2023-03-11T11:18:45.210Z" itemprop="datePublished">2023-03-11</time>
               </p>
             </div>
           </li>
@@ -414,7 +414,7 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <h1 id="1sql的执行流程"><a class="markdownIt-Anchor" href="#1sql的执行流程"></a> 1.sql的执行流程</h1>
-<p><img src="https://img-blog.csdnimg.cn/f5e93d9217484c438a7d7295b2e15d7d.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5riF6aOO5ZKM5pyI5piO,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171454923.png" alt="image-20230406171454923"></p>
 <p><strong>执行流程：</strong></p>
 <ul>
 <li>
@@ -505,7 +505,7 @@
 <h1 id="3join原理"><a class="markdownIt-Anchor" href="#3join原理"></a> 3.join原理</h1>
 <p>MySQL是只支持一种JOIN算法<strong>Nested-Loop Join</strong>（嵌套循环链接）而对于这个算法有很多变种，能够帮助MySQL更高效的执行JOIN操作：</p>
 <h2 id="1simple-nested-loop-join"><a class="markdownIt-Anchor" href="#1simple-nested-loop-join"></a> （1）Simple Nested-Loop Join</h2>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/0aebe392a7c9bc354ec5e54d88d169ce.png" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171528118.png" alt="image-20230406171528118"></p>
 <p>这个算法相对来说就是很简单了，从驱动表中取出R1匹配S表所有列，然后R2，R3,直到将R表中的所有数据匹配完（<strong>笛卡尔集</strong>），然后合并数据，可以看到这种算法要对S表进行RN次访问，虽然简单，但是相对来说开销还是太大了，对于两表联接来说，驱动表只会被访问一遍，但被驱动表却要被访问到好多遍</p>
 <p>假设R为驱动表，S被驱动表，用伪代码表示一下这个过程就是这样：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> r <span class="keyword">in</span> R                      <span class="comment"># 扫描R表（驱动表）</span></span><br><span class="line">    <span class="keyword">for</span> s <span class="keyword">in</span> S                   <span class="comment"># 扫描S表（被驱动表）</span></span><br><span class="line">        <span class="keyword">if</span> (r <span class="keyword">and</span> s satisfy the join condition)  <span class="comment"># 如果r和s满足join条件</span></span><br><span class="line">            output result    <span class="comment"># 返回结果集</span></span><br></pre></td></tr></table></figure>
@@ -514,11 +514,11 @@
 </ul>
 <h2 id="2index-nested-loop-join"><a class="markdownIt-Anchor" href="#2index-nested-loop-join"></a> （2）Index Nested-Loop Join</h2>
 <p>由于内表上有索引，所以比较的时候不再需要一条条记录进行比较，而可以通过索引来减少比较，从而加速查询。整个过程如下图所示：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/aa17d7a50a6cba976e7cf31d8bb378c7.png" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171541636.png" alt="image-20230406171541636"></p>
 <p>这种算法在链接查询的时候，驱动表会根据关联字段的索引进行查找，当在索引上找到了符合的值，再回表进行查询，也就是只有当匹配到索引以后才会进行回表。至于驱动表的选择，MySQL优化器一般情况下是会选择记录数少的作为驱动表，但是当SQL特别复杂的时候不排除会出现错误选择。</p>
 <p>大部分人诟病MySQL的INLJ慢，主要是因为在进行Join的时候可能用到的索引并不是主键的聚集索引，而是辅助索引，这时INLJ的过程又需要多一步Fetch（即回表执行）的过程，由于访问的是辅助索引，如果查询需要访问聚集索引上的列，那么必要需要进行回表取数据，看似每条记录只是多了一次回表操作，但这才是INLJ算法最大的弊端。</p>
 <h2 id="3block-nested-loop-join"><a class="markdownIt-Anchor" href="#3block-nested-loop-join"></a> （3）Block Nested-Loop Join</h2>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/5dc902bed1264510df70a27f09ca315d.png" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171553358.png" alt="image-20230406171553358"></p>
 <p>在有索引的情况下，MySQL会尝试去使用Index Nested-Loop Join算法，在有些情况下，可能Join的列就是没有索引，那么这时MySQL的选择绝对不会是最先介绍的Simple Nested-Loop Join算法，而是会优先使用Block Nested-Loop Join的算法。</p>
 <p>Block Nested-Loop Join对比Simple Nested-Loop Join多了一个中间处理的过程，也就是join buffer，使用join buffer将驱动表的查询JOIN相关列都给缓冲到了JOIN BUFFER当中，然后批量与非驱动表进行比较，这也来实现的话，可以将多次比较合并到一次，降低了非驱动表的访问频率。也就是只需要访问一次S表。这样来说的话，就不会出现多次访问非驱动表的情况了，也只有这种情况下才会访问join buffer。</p>
 <p>在MySQL当中，我们可以通过参数join_buffer_size来设置join buffer的值，然后再进行操作。默认情况下join_buffer_size=256K，在查找的时候MySQL会将所有的需要的列缓存到join buffer当中，包括select的列，而不是仅仅只缓存关联列。在一个有N个JOIN关联的SQL当中会在执行时候分配N-1个join buffer。</p>
@@ -542,7 +542,7 @@
 </li>
 </ul>
 <h1 id="5mysql主从复制同步原理"><a class="markdownIt-Anchor" href="#5mysql主从复制同步原理"></a> 5.mysql主从复制(同步)原理</h1>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86.jpg" alt="主从复制原理"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171606612.png" alt="image-20230406171606612"></p>
 <p>可以看到mysql主从复制需要三个线程：<strong>master（binlog dump thread）、slave（I/O thread 、SQL thread）</strong></p>
 <ul>
 <li><strong>binlog dump线程：</strong> 主库中有数据更新时，根据设置的binlog格式，将更新的事件类型写入到主库的binlog文件中，并创建log dump线程通知slave有数据更新。当I/O线程请求日志内容时，将此时的binlog名称和当前更新的位置同时传给slave的I/O线程</li>
@@ -628,7 +628,7 @@
 </ul>
 <h2 id="第二范式2nf"><a class="markdownIt-Anchor" href="#第二范式2nf"></a> 第二范式(2NF)</h2>
 <p><strong>所有非主键列必须全部依赖于全部主键</strong>。符合与不符合的场景如下：</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/2NF.png" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171622411.png" alt="image-20230406171622411"></p>
 <p>案例如下：</p>
 <p><strong>学生课程表</strong></p>
 <table>
@@ -746,7 +746,7 @@
 </ul>
 <h2 id="第三范式3nf"><a class="markdownIt-Anchor" href="#第三范式3nf"></a> 第三范式(3NF)</h2>
 <p><strong>在满足1NF和2NF的前提下，非主键列之间不存在间接依赖关系</strong>（消除传递函数依赖）。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/3NF.png" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171632382.png" alt="image-20230406171632382"></p>
 <p>案例如下：</p>
 <p><strong>学生表</strong></p>
 <table>
@@ -909,15 +909,15 @@
 </ul>
 <p>下面提供一种方法，解决死锁的状态:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 查看正在被锁的事务</span><br><span class="line">SELECT * FROM INFORMATION_SCHEMA.INNODB_TRX;</span><br></pre></td></tr></table></figure>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/%E8%A7%A3%E5%86%B3%E6%AD%BB%E9%94%81.jpg" alt="解决死锁"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171652107.png" alt="image-20230406171652107"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--上图trx_mysql_thread_id列的值</span><br><span class="line">kill trx_mysql_thread_id;</span><br></pre></td></tr></table></figure>
 <h1 id="10数据切分"><a class="markdownIt-Anchor" href="#10数据切分"></a> 10.数据切分</h1>
 <h2 id="水平切分"><a class="markdownIt-Anchor" href="#水平切分"></a> 水平切分</h2>
 <p>水平切分又称为 Sharding，它是将同一个表中的记录拆分到多个结构相同的表中。当一个表的数据不断增多时，Sharding 是必然的选择，它可以将数据分布到集群的不同节点上，从而缓存单个数据库的压力。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/007S8ZIlly1gjjfy33yx2j30fm05zwg9.jpg" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171710099.png" alt="image-20230406171710099"></p>
 <h2 id="垂直切分"><a class="markdownIt-Anchor" href="#垂直切分"></a> 垂直切分</h2>
 <p>垂直切分是将一张表按列分成多个表，通常是按照列的关系密集程度进行切分，也可以利用垂直切分将经常被使用的列和不经常被使用的列切分到不同的表中。在数据库的层面使用垂直切分将按数据库中表的密集程度部署到不通的库中，例如将原来电商数据部署库垂直切分称商品数据库、用户数据库等。</p>
-<p><img src="https://gitee.com/yu120/lemon-guide/raw/main/images/Database/007S8ZIlly1gjjfy5yoatj30cy09l776.jpg" alt="img"></p>
+<p><img src="/2023/02/17/mysql/image-20230406171718313.png" alt="image-20230406171718313"></p>
 <h2 id="sharding策略"><a class="markdownIt-Anchor" href="#sharding策略"></a> Sharding策略</h2>
 <ul>
 <li>哈希取模：hash(key)%N</li>
