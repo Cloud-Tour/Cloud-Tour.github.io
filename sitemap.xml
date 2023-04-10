@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://cloud-tour.github.io/2023/04/07/java%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</loc>
+    
+    <lastmod>2023-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://cloud-tour.github.io/2023/03/11/kafka/</loc>
     
     <lastmod>2023-04-06</lastmod>
@@ -157,7 +166,7 @@
 
   <url>
     <loc>http://cloud-tour.github.io/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -165,91 +174,98 @@
   
   <url>
     <loc>http://cloud-tour.github.io/tags/AQS/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8/</loc>
-    <lastmod>2023-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/tags/ReentrantLock/</loc>
-    <lastmod>2023-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/tags/Lock/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/debian/</loc>
-    <lastmod>2023-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/tags/java11/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/nginx/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/java11/</loc>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/tags/kafka/</loc>
-    <lastmod>2023-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/tags/proteus/</loc>
-    <lastmod>2023-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://cloud-tour.github.io/tags/keil/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <loc>http://cloud-tour.github.io/tags/%E5%AE%9A%E6%97%B6%E5%99%A8/</loc>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/%E5%A0%86%E6%8A%A2%E5%8D%A0/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/proteus/</loc>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/keil/</loc>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/tags/Synchronized/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/ReentrantLock/</loc>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/Lock/</loc>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/tags/kafka/</loc>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -258,35 +274,42 @@
   
   <url>
     <loc>http://cloud-tour.github.io/categories/juc/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/categories/jvm/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/categories/linux/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://cloud-tour.github.io/categories/kafka/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <loc>http://cloud-tour.github.io/categories/java/</loc>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://cloud-tour.github.io/categories/51%E5%8D%95%E7%89%87%E6%9C%BA/</loc>
-    <lastmod>2023-04-08</lastmod>
+    <lastmod>2023-04-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://cloud-tour.github.io/categories/kafka/</loc>
+    <lastmod>2023-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
