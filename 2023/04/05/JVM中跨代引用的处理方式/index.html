@@ -18,20 +18,21 @@
   
   
   <title>JVM跨代引用问题的处理方式 | Hexo</title>
-  <meta name="description" content="JVM跨代引用问题的处理方式 跨代引用  场景： 年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 特点： 互相引用的两个对象几乎总是同生共死： 如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。 因此，存在跨代引用的对象较少。">
+  <meta name="description" content="JVM跨代引用问题的处理方式 ------参考自《深入理解java虚拟机》 跨代引用   场景：  年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 比如：（老年代中对象存在新生代对象的引用）     可以看到，老年代的对象HumongN被GCRoots所引用，此时HumongN-&gt;S就是跨代引用。S又引用着E，因此这三个对象都不是垃圾。在新生代中，由E找到S是非常快">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM跨代引用问题的处理方式">
 <meta property="og:url" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="JVM跨代引用问题的处理方式 跨代引用  场景： 年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 特点： 互相引用的两个对象几乎总是同生共死： 如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。 因此，存在跨代引用的对象较少。">
+<meta property="og:description" content="JVM跨代引用问题的处理方式 ------参考自《深入理解java虚拟机》 跨代引用   场景：  年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 比如：（老年代中对象存在新生代对象的引用）     可以看到，老年代的对象HumongN被GCRoots所引用，此时HumongN-&gt;S就是跨代引用。S又引用着E，因此这三个对象都不是垃圾。在新生代中，由E找到S是非常快">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419204451734.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419213416328.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230420005913484.png">
 <meta property="article:published_time" content="2023-04-05T06:14:22.940Z">
-<meta property="article:modified_time" content="2023-04-19T12:45:19.934Z">
+<meta property="article:modified_time" content="2023-04-19T17:17:23.513Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="跨代引用">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419204451734.png">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419213416328.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/index.html">
   
@@ -344,7 +345,7 @@
   <div class="slimContent">
     <nav id="toc" class="article-toc">
       <h3 class="toc-title">Catalogue</h3>
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jvm%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text"> JVM跨代引用问题的处理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%A1%E8%A1%A8"><span class="toc-number">1.1.</span> <span class="toc-text"> 卡表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E9%9B%86%E5%90%88"><span class="toc-number">1.2.</span> <span class="toc-text"> 记忆集合</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#jvm%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E9%97%AE%E9%A2%98%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text"> JVM跨代引用问题的处理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%B0%E5%BF%86%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text"> 记忆集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%A1%E8%A1%A8"><span class="toc-number">1.2.</span> <span class="toc-text"> 卡表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%A1%E8%A1%A8%E7%BB%B4%E6%8A%A4"><span class="toc-number">1.3.</span> <span class="toc-text"> 卡表维护</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 写屏障</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%B1%8F%E9%9A%9C%E4%BC%AA%E5%85%B1%E4%BA%AB"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 写屏障伪共享</span></a></li></ol></li></ol></li></ol>
     </nav>
   </div>
 </aside>
@@ -392,99 +393,105 @@
     <div class="article-entry marked-body" itemprop="articleBody">
       
         <h1 id="jvm跨代引用问题的处理方式"><a class="markdownIt-Anchor" href="#jvm跨代引用问题的处理方式"></a> JVM跨代引用问题的处理方式</h1>
+<p>------参考自《深入理解java虚拟机》</p>
 <p><strong>跨代引用</strong></p>
 <ul>
-<li><strong>场景：</strong><br>
-年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用</li>
-<li><strong>特点：</strong><br>
-互相引用的两个对象几乎总是同生共死：<br>
-如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。<br>
-因此，存在跨代引用的对象较少。</li>
-<li><strong>跨代引用带来的问题：</strong><br>
-年轻代对象引用老年代对象：minor gc时需要扫描老年代。<br>
-老年代对象引用年轻代对象：major gc时需要扫描年轻代。</li>
-<li><strong>解决方案：</strong><br>
-通过降低扫描对象的范围或数量来降低gc的耗时：
+<li>
+<p><strong>场景：</strong></p>
 <ul>
-<li>年轻代对象引用老年代对象：借助 卡表/记忆集合来减小minor gc时扫描老年代的范围，进而降低minor gc的时间。</li>
-<li>老年代对象引用年轻代对象：
-<ul>
-<li>CMS收集器：借助<strong>提前触发minor gc</strong> 来减少年轻代中对象的数量，进而降低major gc的时间。</li>
-<li>G1收集器：借助<strong>记忆集合</strong>来减少老年代gc时扫描年轻代的范围，进而降低minor gc的时间。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="卡表"><a class="markdownIt-Anchor" href="#卡表"></a> 卡表</h2>
+<li>年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用</li>
+<li>比如：（老年代中对象存在新生代对象的引用）
 <ul>
 <li>
-<p><strong>数据结构：</strong></p>
+<img src="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419213416328.png" alt="image-20230419213416328" style="zoom: 67%;">
+</li>
+<li>可以看到，老年代的对象HumongN被GCRoots所引用，此时HumongN-&gt;S就是跨代引用。S又引用着E，因此这三个对象都不是垃圾。在新生代中，由E找到S是非常快速简单的。然而由S找到HumongN就需要遍历整个老年代的对象，这个过程是相当耗时的。所以要避免每次 YGC 时扫描整个老年代，减少开销。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>引出：</strong></p>
 <ul>
-<li><strong>卡表</strong>：jvm将老年代划分为若干个大小为512字节的区域(card)，并使用一个 <strong>字节(byte)数组</strong> 来标记老年代中这些区域(card)中的对象是否持有新生代对象的引用。jvm将这个 字节数组 称为卡表(card table)。</li>
-<li><strong>卡表中的元素</strong>：表示老年代中某块区域(card)中的对象是否持有新生代对象的引用。</li>
-<li><strong>卡表</strong>属于points-out(我引用了谁的对象)的结构。</li>
+<li>
+<p>首先，产生跨代引用场景是发生YongGC的过程。此时新生代的对象会开始寻找根，看自己是否属于根可达对象，从而判断自己是否是垃圾。</p>
+</li>
+<li>
+<p>那么就出现了问题，判断对象是否存活，不是应该是从GC Roots开始寻找，使用复杂的三色标记算法后，将判定不存活的对象删除掉么？</p>
+</li>
+<li>
+<p>但事实上，并不是所有老年代的对象都会引用着新生代的对象。那么相对频繁的YongGC，每次都从根节点遍历一次，效率就会被严重影响。</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>跨代引用带来的问题：</strong></p>
+<ul>
+<li>minor gc（新生代垃圾回收）时需要扫描老年代，因为可能存在老年代对象引用年轻代对象（说明年轻代对象是可达的，不可回收）。</li>
+<li>major gc（老年代垃圾回收）时需要扫描年轻代，因为可能存在年轻代对象引用老年代对象（说明老年代对象是可达的，不可回收）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="记忆集"><a class="markdownIt-Anchor" href="#记忆集"></a> 记忆集</h2>
+<p>​		为解决对象跨代引用所带来的问题，垃圾收集器在新生代中建立了名为**记忆集（Remembered Set)**的数据结构，用以避免把整个老年代加进GC Roots扫描范围。</p>
+<p>​		事实上并不只是新生代、老年代之间才有跨代引用的问题，所有涉及部分区域收集（PartialGC）行为的垃圾收集器，典型的如G1、ZGC和Shenandoah收集器，都会面临相同的问题。记忆集是一种用于记录<strong>从非收集区域指向收集区域的指针集合</strong>的<strong>抽象数据结构</strong>。如果我们不考虑效率和成本的话，最简单的实现可以用非收集区域中所有含跨代引用的对象数组来实现这个数据结构。</p>
+<p><strong>注意记忆集的说辞：抽象。意思就是说记忆集是一种逻辑上的概念，并没有规定具体的实现，类似方法区。下文我们会说到卡表，可以把记忆集和卡表的关系理解为Map跟HashMap</strong>。</p>
+<h2 id="卡表"><a class="markdownIt-Anchor" href="#卡表"></a> <strong>卡表</strong></h2>
+<p>​		垃圾收集器只需要通过记忆集判断出某一块非收集区域是否存在有指向了收集区域的指针就可以了，并不需要了解这些跨代指针的全部细节。那设计者在实现记忆集的时候，便可以选择更为粗犷的记录粒度来节省记忆集的存储和维护成本，下面列举了一些可供选择（当然也可以选择这个范围以外的）的记录精度：</p>
+<ul>
+<li><strong>字长精度</strong>：每个记录精确到一个机器字长(就是处理器的寻址位数，如常见的32位或64位，这个精度决定了机器访问物理内存地址的指针长度），该字包含跨代指针。</li>
+<li><strong>对象精度</strong>：每个记录精确到一个对象，该对象里有字段含有跨代指针。</li>
+<li><strong>卡精度</strong>：每个记录精确到一块内存区域，该区域内有对象含有跨代指针。</li>
+</ul>
+<p>​		其中，第三种“卡精度”所指的是用一种称为**“卡表”（Card Table)**的方式去实现记忆集，这也是目前最常用的一种记忆集实现形式，一些资料中甚至直接把它和记忆集混为一谈。前面定义中提到记忆集其实是一种“<strong>抽象</strong>”的数据结构，抽象的意思是只定义了记忆集的行为意图，并没有定义其行为的具体实现。</p>
+<p>​		<strong>卡表就是记忆集的一种具体实现</strong>，它定义了记忆集的记录精度、与堆内存的映射关系等</p>
+<p>在Hotspot虚拟机里面，卡表采用的是字节数组的形式。以下这行代码是HotSpot默认的卡表标记逻辑 ：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CARD_TABLE [this address &gt;&gt; <span class="number">9</span>] = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>​		字节数组CARD_TABLE的每一个元素都对应着其标识的内存区域中一块特定大小的内存块，这个内存块被称作**“卡页”（Card Page）<strong>。一般来说，卡页大小都是以2的N次幂的字节数，通过上面代码可以看出HotSpot中使用的卡页是2的9次幂，即</strong>512字节**。那如果卡表标识内存区域的起始地址是0x0000的话，数组CARD_TABLE的第0、1、2号元素，分别对应了地址范围为0x0000～0x01FF、0x0200～0x03FF、0x0400～0x05FF的卡页内存块 ，如图所示：</p>
+<img src="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230420005913484.png" alt="image-20230420005913484" style="zoom:67%;">
+<p><strong>卡表的标记规则</strong>：</p>
+<ul>
+<li>一个卡页的内存中通常包含不止一个对象，只要卡页内有一个（或更多）对象的字段存在着跨代指针，那就将对应卡表的数组元素的值标识为1，称为这个元素变脏（Dirty），没有则标识为0。</li>
+<li>在垃圾收集发生时，只要筛选出卡表中变脏的元素，就能轻易得出哪些卡页内存块中包含跨代指针，把它们加入GC Roots中一并扫描。</li>
+</ul>
+<h2 id="卡表维护"><a class="markdownIt-Anchor" href="#卡表维护"></a> 卡表维护</h2>
+<p>​		我们已经解决了如何使用记忆集来缩减GC Roots扫描范围的问题，但还没有解决卡表元素如何维护的问题，例如它们何时变脏、谁来把它们变脏等。</p>
+<p><strong>解决</strong>：</p>
+<ul>
+<li>
+<p>先来解决何时变脏的问题，这个问题很简单，即<strong>其他分代区域中对象引用了本区域对象时，其对应的卡表元素就应该变脏，变脏时间点原则上应该发生在引用类型字段赋值的那一刻</strong>。</p>
+</li>
+<li>
+<p>而解决如何变脏问题，在HotSpot 虚拟机里是通过**写屏障（Write Barrier)**技术维护卡表状态解决的。</p>
+</li>
 </ul>
 <blockquote>
-<p>说明：之所以使用byte数组而不是bit数组主要是速度上的考量，现代计算机硬件都是最小按字节寻址的，没有直接存储一个bit指令，所以要用bit的话就不得不多消耗几条shift+mask指令。</p>
+<p>注意：这里提到的 写屏障 和 volatile 的写屏障不是一回事。</p>
 </blockquote>
-</li>
-<li>
-<p><strong>原理：</strong></p>
-<ul>
-<li>当老年代中的某个对象持有了新生代对象的引用时，jvm将卡表中表示该对象所在区域(card)的元素设为1，表示该对象所在区域(card)是一个 dirty card。（注意：新生代对象引用老年代对象时，老年代对象所在的区域(card)不会被标记为dirty card）。</li>
-<li>年轻代gc时只扫描dirty card中的对象，而无需扫描整个老年代中的对象，从而减少年轻代gc的停顿时间。</li>
-<li>当完成所有脏卡的扫描之后，jvm便会将所有脏卡的标识位清零。</li>
-</ul>
-</li>
-<li>
-<p><strong>card标记为dirty card的原理</strong></p>
-<ul>
-<li><strong>写屏障：</strong>
-<ul>
-<li>写屏障是一小段将card标记为dirty card的代码：检查对象的引用变更时是否出现了跨代引用(g1是跨region引用)，如果出现，这将对应的card标记为dirty card。</li>
-</ul>
-</li>
-<li><strong>Hotspot VM的字节码解释器和JIT编译器使用写屏障维护卡表：</strong>
-<ul>
-<li>解释器每次执行更新引用的字节码时，都会执行一段写屏障。</li>
-<li>JIT编译器在生成更新引用的代码后，也会生成一段写屏障。</li>
-<li>虽然写屏障使得应用线程增加了一些性能开销，但是minor gc的效率提高了很多，进而提高了系统的吞吐量。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="记忆集合"><a class="markdownIt-Anchor" href="#记忆集合"></a> 记忆集合</h2>
+<h3 id="写屏障"><a class="markdownIt-Anchor" href="#写屏障"></a> <strong>写屏障</strong></h3>
 <ul>
 <li>
-<p><strong>数据结构:</strong></p>
+<p><strong>写屏障可以看作在虚拟机层面对“引用类型字段赋值”这个动作的AOP切面，在引用对象赋值时会产生一个环形（Around）通知。</strong></p>
+</li>
+<li>
+<p>在赋值前的部分的写屏障叫作<code>写前屏障（Pre-Write Barrier）</code>，在赋值后的则叫作<code>写后屏障（Post-Write Barrier）</code>。</p>
+</li>
+<li>
+<p>HotSpot虚拟机的许多收集器中都有使用到写屏障，<strong>但直至G1收集器出现之前，其他收集器都只用到了写后屏障。</strong></p>
+</li>
+<li>
+<p>应用写屏障后，虚拟机就会为所有赋值操作生成相应的指令</p>
+</li>
+</ul>
+<p>​		一旦收集器在写屏障中增加了更新卡表操作，无论更新的是不是老年代对新生代对象的引用，每次只要对引用进行更新，就会产生额外的开销，不过这个开销与Minor GC时扫描整个老年代的代价相比还是低得多的。</p>
+<h3 id="写屏障伪共享"><a class="markdownIt-Anchor" href="#写屏障伪共享"></a> <strong>写屏障伪共享</strong></h3>
+<p>​		卡表在高并发场景下还面临着 **“伪共享”（False Sharing）<strong>问题。伪共享是处理并发底层细节时一种经常需要考虑的问题，号称并发的隐形杀手，现代中央处理器的缓存系统中是以缓存行（Cache Line）为单位存储的，当多线程修改互相独立的变量时，如果这些变量恰好共享同一个缓存行，就会</strong>彼此影响（写回、无效化或者同步）**而导致性能降低，这就是伪共享问题。</p>
+<p>​		为了避免伪共享问题，一种简单的解决方案是<strong>不采用无条件的写屏障</strong>，而是先检查卡表标记，只有当该卡表元素未被标记过时才将其标记为变脏，即将卡表更新的逻辑变为以下代码所示：</p>
+<p>相当于说就是多了一个if判断条件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (CARD_TABLE [this address &gt;&gt; <span class="number">9</span>] != <span class="number">0</span>)</span><br><span class="line">CARD_TABLE [this address &gt;&gt; <span class="number">9</span>] = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
 <ul>
-<li>
-<p>每个region都维护着一个记忆集合(Remembered Set / Rset)，收集器在标记跨代引用的对象时只需扫描(CSet中region维护的)RSet即可。</p>
-</li>
-<li>
-<p>RSet的整体结构是一个哈希表，底层是在卡表的基础上实现的。</p>
-<ul>
-<li>key：key记录了<strong>引用本region中对象的对象</strong>所在region的<strong>位置</strong>。</li>
-<li>value：是一个集合，其元素是：其它region(由key确定是哪个region)中的<strong>对象引用本region中对象的引用</strong>及<strong>引用所在的卡表位置</strong>。</li>
+<li>在JDK 7之后，HotSpot虚拟机增加了一个新的参数-XX：+UseCondCardMark（默认是关闭的），用来决定是否开启卡表更新的条件判断。开启会增加一次额外判断的开销，但能够避免伪共享问题，两者各有性能损耗，是否打开要根据应用实际运行情况来进行测试权衡。</li>
 </ul>
-</li>
-<li>
-<p>Rset属于points-into结构(谁引用了我的对象)</p>
-</li>
-</ul>
-</li>
-<li>
-<p><strong>RSet、Card和Region的关系</strong></p>
-<ul>
-<li>每个region被分成了多个card。</li>
-<li>不同region中的card会相互引用。</li>
-<li>图示：<img src="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419204451734.png" alt="image-20230419204451734"></li>
-</ul>
-</li>
-</ul>
-<p>Region1中的Card中的对象引用了Region2中的Card中的对象，蓝色实线表示的就是points-out的关系，而在Region2的RSet中，记录了Region1的Card，即红色虚线表示的关系，这就是points-into。</p>
 
       
     </div>
