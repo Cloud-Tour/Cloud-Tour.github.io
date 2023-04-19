@@ -25,13 +25,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="JVM跨代引用问题的处理方式 跨代引用  场景： 年轻代的对象持有着老年代对象的引用、老年代的对象持有着年轻代对象的引用 特点： 互相引用的两个对象几乎总是同生共死： 如果某个新生代对象存在跨代引用，由于老年代对象难以消亡，该引用会使得新生对象在minor gc时得以存活，该对象经历多次minor gc后晋升到老年代，此时跨代引用自然也随着该对象的晋升而消失了。 因此，存在跨代引用的对象较少。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png">
+<meta property="og:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419204451734.png">
 <meta property="article:published_time" content="2023-04-05T06:14:22.940Z">
-<meta property="article:modified_time" content="2023-04-06T09:12:18.285Z">
+<meta property="article:modified_time" content="2023-04-19T12:45:19.934Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="跨代引用">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png">
+<meta name="twitter:image" content="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419204451734.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://cloud-tour.github.io/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/index.html">
   
@@ -421,7 +421,7 @@
 <li>
 <p><strong>数据结构：</strong></p>
 <ul>
-<li>**卡表：**jvm将老年代划分为若干个大小为512字节的区域(card)，并使用一个 <strong>字节(byte)数组</strong> 来标记老年代中这些区域(card)中的对象是否持有新生代对象的引用。jvm将这个 字节数组 称为卡表(card table)。</li>
+<li><strong>卡表</strong>：jvm将老年代划分为若干个大小为512字节的区域(card)，并使用一个 <strong>字节(byte)数组</strong> 来标记老年代中这些区域(card)中的对象是否持有新生代对象的引用。jvm将这个 字节数组 称为卡表(card table)。</li>
 <li><strong>卡表中的元素</strong>：表示老年代中某块区域(card)中的对象是否持有新生代对象的引用。</li>
 <li><strong>卡表</strong>属于points-out(我引用了谁的对象)的结构。</li>
 </ul>
@@ -480,7 +480,7 @@
 <ul>
 <li>每个region被分成了多个card。</li>
 <li>不同region中的card会相互引用。</li>
-<li>图示：<img src="https://img-blog.csdnimg.cn/img_convert/fd747651b9c6c6a2847c6d84a1e88832.png" alt="Remembered Sets"></li>
+<li>图示：<img src="/2023/04/05/JVM%E4%B8%AD%E8%B7%A8%E4%BB%A3%E5%BC%95%E7%94%A8%E7%9A%84%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/image-20230419204451734.png" alt="image-20230419204451734"></li>
 </ul>
 </li>
 </ul>
